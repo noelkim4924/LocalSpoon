@@ -29,7 +29,8 @@ export default function MainPage() {
   const [loading, setLoading] = useState<boolean>(false);
 
   // 모달 열림/닫힘 상태
-  const [modalOpen, setModalOpen] = useState<boolean>(false);
+  // const [modalOpen, setModalOpen] = useState<boolean>(false);
+  const [confirmModalOpen, setConfirmModalOpen] = useState<boolean>(false);
 
   // Haversine formula to calculate distance
   const calculateDistance = (
@@ -114,7 +115,8 @@ export default function MainPage() {
       setRestaurants(newRestaurants);
       localStorage.setItem("restaurants", JSON.stringify(newRestaurants));
       console.log("Data stored in local storage:", newRestaurants);
-      alert(`총 ${newRestaurants.length}개의 레스토랑 정보를 불러왔습니다!`);
+      setConfirmModalOpen(true);
+      // alert(`총 ${newRestaurants.length}개의 레스토랑 정보를 불러왔습니다!`);
     } catch (error) {
       console.error("Error fetching restaurants:", error);
       alert("Failed to fetch restaurants. Please try again.");
@@ -191,17 +193,17 @@ export default function MainPage() {
       </button>
 
       {/* 이상형 월드컵 시작하기 버튼 (모달 열기) */}
-      <button
+      {/* <button
         onClick={() => setModalOpen(true)}
         className="bg-green-500 text-white p-2 rounded mt-2"
       >
         이상형 월드컵 시작하기
-      </button>
+      </button> */}
 
       {loading && <p>Loading...</p>}
 
       {/* 검색 결과 리스트 */}
-      <ul className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+      {/* <ul className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
         {restaurants.map((restaurant) => (
           <li key={restaurant.id} className="border p-4 rounded shadow-md">
             <img
@@ -226,10 +228,10 @@ export default function MainPage() {
             </a>
           </li>
         ))}
-      </ul>
+      </ul> */}
 
       {/* 모달 컴포넌트 (BracketSelectModal) */}
-      <BracketSelectModal isOpen={modalOpen} onClose={() => setModalOpen(false)} />
+      <BracketSelectModal isOpen={confirmModalOpen} onClose={() => setConfirmModalOpen(false)} />
     </div>
   );
 }
