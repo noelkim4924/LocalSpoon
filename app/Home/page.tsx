@@ -8,10 +8,8 @@ interface Restaurant {
   name: string;
   rating: number;
   reviewCount: number;
-  // price: string | null;
-  // phone: string;
   category: string;
-  distance: number; // Distance from Yelp API
+  distance: number; // Calculated distance in meters
   imageUrl: string;
   address: string;
   url: string;
@@ -22,11 +20,27 @@ interface Restaurant {
 export default function MainPage() {
   const [latitude, setLatitude] = useState<number | null>(null);
   const [longitude, setLongitude] = useState<number | null>(null);
-  const [radius, setRadius] = useState<number>(10000); // Default radius: 10km
+  const [radius, setRadius] = useState<number>(4000); // Default radius: 10km
   const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
-  const [offset, setOffset] = useState<number>(0); // Offset for pagination
-  const [total, setTotal] = useState<number | null>(null); // Total results from Yelp
+
+  // Haversine formula to calculate distance
+  const calculateDistance = (lat1: number, lon1: number, lat2: number, lon2: number) => {
+    const R = 6371e3; // Earth's radius in meters
+    const toRad = (value: number) => (value * Math.PI) / 180;
+
+    const φ1 = toRad(lat1);
+    const φ2 = toRad(lat2);
+    const Δφ = toRad(lat2 - lat1);
+    const Δλ = toRad(lon2 - lon1);
+
+    const a =
+      Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
+      Math.cos(φ1) * Math.cos(φ2) * Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+    return R * c; // Distance in meters
+  };
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(
@@ -38,7 +52,7 @@ export default function MainPage() {
     );
   }, []);
 
-  const fetchRestaurants = async (loadMore = false) => {
+  const fetchRestaurants = async () => {
     if (!latitude || !longitude) {
       alert("Please provide your location.");
       return;
@@ -47,8 +61,8 @@ export default function MainPage() {
     setLoading(true);
     try {
       const response = await fetch(
-        `/api/yelp?latitude=${latitude}&longitude=${longitude}&limit=20&offset=${offset}`
-      );
+        `/api/yelp?latitude=${latitude}&longitude=${longitude}&radius=${radius}&limit=50`
+      ); // Fetch maximum allowed results in one go (50)
 
       if (!response.ok) {
         const errorData = await response.json();
@@ -56,24 +70,30 @@ export default function MainPage() {
       }
 
       const data = await response.json();
-      const newRestaurants = data.businesses.map((business: any) => ({
-        id: business.id,
-        name: business.name,
-        rating: business.rating,
-        reviewCount: business.review_count,
-        // price: business.price || "N/A",
-        // phone: business.phone,
-        category: business.categories[0].title,
-        distance: business.distance, // Use Yelp's distance field
-        imageUrl: business.image_url,
-        address: `${business.location.address1}, ${business.location.city}, ${business.location.state} ${business.location.zip_code}`,
-        url: business.url,
-        latitude: business.coordinates.latitude,
-        longitude: business.coordinates.longitude,
-      }));
+      const newRestaurants = data.businesses.map((business: any) => {
+        const distance = calculateDistance(
+          latitude,
+          longitude,
+          business.coordinates.latitude,
+          business.coordinates.longitude
+        );
 
-      setRestaurants((prev) => (loadMore ? [...prev, ...newRestaurants] : newRestaurants));
-      setTotal(data.total); // Set the total number of results from the Yelp API
+        return {
+          id: business.id,
+          name: business.name,
+          rating: business.rating,
+          reviewCount: business.review_count,
+          category: business.categories[0].title,
+          distance, // Calculated distance
+          imageUrl: business.image_url,
+          address: `${business.location.address1}, ${business.location.city}, ${business.location.state} ${business.location.zip_code}`,
+          url: business.url,
+          latitude: business.coordinates.latitude,
+          longitude: business.coordinates.longitude,
+        };
+      });
+
+      setRestaurants(newRestaurants);
     } catch (error) {
       console.error("Error fetching restaurants:", error);
       alert("Failed to fetch restaurants. Please try again.");
@@ -81,16 +101,6 @@ export default function MainPage() {
       setLoading(false);
     }
   };
-
-  const loadMoreRestaurants = () => {
-    setOffset((prevOffset) => prevOffset + 20);
-  };
-
-  useEffect(() => {
-    if (offset > 0) {
-      fetchRestaurants(true); // Fetch additional restaurants when offset changes
-    }
-  }, [offset]);
 
   return (
     <div className="p-4">
@@ -138,21 +148,9 @@ export default function MainPage() {
         </MapContainer>
       )}
 
-      {/* Radius Dropdown */}
-      <select
-        value={radius}
-        onChange={(e) => setRadius(Number(e.target.value))}
-        className="border p-2 rounded mb-4"
-      >
-        <option value={1000}>1 km</option>
-        <option value={5000}>5 km</option>
-        <option value={10000}>10 km</option>
-        <option value={20000}>20 km</option>
-      </select>
-
       {/* Fetch Button */}
       <button
-        onClick={() => fetchRestaurants()}
+        onClick={fetchRestaurants}
         className="bg-blue-500 text-white p-2 rounded"
       >
         Find Restaurants
@@ -162,34 +160,30 @@ export default function MainPage() {
       {loading ? (
         <p>Loading...</p>
       ) : (
-        <div>
-          <ul className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
-            {restaurants.map((restaurant) => (
-              <li key={restaurant.id} className="border p-4 rounded shadow-md">
-                <img
-                  src={restaurant.imageUrl}
-                  alt={restaurant.name}
-                  className="w-full h-40 object-cover rounded mb-2"
-                />
-                <h3 className="font-bold text-lg">{restaurant.name}</h3>
-                <p className="text-sm text-gray-600">{restaurant.address}</p>
-                <p>Rating: {restaurant.rating} ({restaurant.reviewCount} reviews)</p>
-                {/* <p>Price: {restaurant.price}</p>
-                <p>Phone: {restaurant.phone}</p> */}
-                <p>Category: {restaurant.category}</p>
-                <p>Distance: {(restaurant.distance / 1000).toFixed(1)} km</p>
-                <a
-                  href={restaurant.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-blue-500 underline"
-                >
-                  View on Yelp
-                </a>
-              </li>
-            ))}
-          </ul>
-        </div>
+        <ul className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+          {restaurants.map((restaurant) => (
+            <li key={restaurant.id} className="border p-4 rounded shadow-md">
+              <img
+                src={restaurant.imageUrl}
+                alt={restaurant.name}
+                className="w-full h-40 object-cover rounded mb-2"
+              />
+              <h3 className="font-bold text-lg">{restaurant.name}</h3>
+              <p className="text-sm text-gray-600">{restaurant.address}</p>
+              <p>Rating: {restaurant.rating} ({restaurant.reviewCount} reviews)</p>
+              <p>Category: {restaurant.category}</p>
+              <p>Distance: {(restaurant.distance / 1000).toFixed(1)} km</p>
+              <a
+                href={restaurant.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-blue-500 underline"
+              >
+                View on Yelp
+              </a>
+            </li>
+          ))}
+        </ul>
       )}
     </div>
   );
