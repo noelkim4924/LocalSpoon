@@ -7,7 +7,6 @@ export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const latitude = searchParams.get("latitude");
   const longitude = searchParams.get("longitude");
-  const radius = searchParams.get("radius");
   const term = searchParams.get("term") || "restaurants";
 
   if (!latitude || !longitude) {
@@ -17,41 +16,39 @@ export async function GET(request: Request) {
     );
   }
 
+  
   try {
     const response = await axios.get(YELP_API_URL, {
       headers: {
         Authorization: `Bearer ${process.env.YELP_API_KEY}`,
       },
       params: {
-        latitude,
-        longitude,
-        radius,
+        latitude: parseFloat(latitude),
+        longitude: parseFloat(longitude),
         term,
+        limit: 50,
       },
     });
 
+    // Return Yelp API response
     return NextResponse.json(response.data);
   } catch (error) {
-    // Use AxiosError for strong typing
     if (axios.isAxiosError(error)) {
-      const axiosError = error as AxiosError;
-
       console.error(
         "Error fetching Yelp data:",
-        axiosError.response?.data || axiosError.message
+        error.response?.data || error.message
       );
 
       return NextResponse.json(
         {
           error:
-            axiosError.response?.data?.error?.description ||
+            error.response?.data?.error?.description ||
             "Failed to fetch Yelp API",
         },
-        { status: axiosError.response?.status || 500 }
+        { status: error.response?.status || 500 }
       );
     }
 
-    // Handle non-Axios errors
     console.error("Unexpected error:", error);
     return NextResponse.json(
       { error: "Unexpected error occurred" },
