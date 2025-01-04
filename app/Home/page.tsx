@@ -2,6 +2,8 @@
 import { useEffect, useState } from "react";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
+import Box from '@mui/material/Box';
+import Slider from '@mui/material/Slider';
 
 interface Restaurant {
   id: string;
@@ -20,7 +22,7 @@ interface Restaurant {
 export default function MainPage() {
   const [latitude, setLatitude] = useState<number | null>(null);
   const [longitude, setLongitude] = useState<number | null>(null);
-  const [radius, setRadius] = useState<number>(4000); // Default radius: 10km
+  const [radius, setRadius] = useState<number>(3000); // Default radius: 3km
   const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -91,9 +93,11 @@ export default function MainPage() {
           latitude: business.coordinates.latitude,
           longitude: business.coordinates.longitude,
         };
-      });
+      })
+      .filter((restaurant: any) => restaurant.distance <= radius);
 
       setRestaurants(newRestaurants);
+      localStorage.setItem("restaurants", JSON.stringify(newRestaurants));
     } catch (error) {
       console.error("Error fetching restaurants:", error);
       alert("Failed to fetch restaurants. Please try again.");
@@ -147,6 +151,21 @@ export default function MainPage() {
           ))}
         </MapContainer>
       )}
+
+      <Box sx={{ width: 300 }}>
+        <p>Radius (in km): {radius / 1000}</p>
+        <Slider
+          aria-label="Temperature"
+          defaultValue={3}
+          valueLabelDisplay="auto"
+          shiftStep={3}
+          step={1}
+          marks
+          min={1}
+          max={10}
+          onChange={(e, value) => setRadius(value as number * 1000)}
+        />
+      </Box>
 
       {/* Fetch Button */}
       <button
