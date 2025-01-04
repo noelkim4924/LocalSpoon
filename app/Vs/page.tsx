@@ -8,6 +8,8 @@ interface Restaurant {
   category: string;
   imageUrl: string;
   distance: number;
+  rating: number;
+  reviewCount: number;
 }
 
 export default function VsPage() {
@@ -19,11 +21,9 @@ export default function VsPage() {
   const [winners, setWinners] = useState<Restaurant[]>([]);
   const [roundNumber, setRoundNumber] = useState(1);
 
-  // 전체 선택 순서를 기록하는 배열(중복 제거/정리는 RankingPage에서)
   const [selectedWinners, setSelectedWinners] = useState<Restaurant[]>([]);
 
   useEffect(() => {
-    // "restaurantsForBracket" 불러오기
     const data = localStorage.getItem("restaurantsForBracket");
     if (!data) {
       alert("No bracket data found. Please select bracket size first.");
@@ -35,14 +35,10 @@ export default function VsPage() {
     setCurrentRound(parsed);
   }, []);
 
-  // 현재 진행 중인 매치에서 2개만 추출
   const pair = currentRound.slice(matchIndex * 2, matchIndex * 2 + 2);
 
-  // 승자를 선택했을 때
   const handleSelectWinner = (winner: Restaurant) => {
-    // 이번 라운드 승자
     setWinners((prev) => [...prev, winner]);
-    // 전체 선택 순서
     setSelectedWinners((prev) => [...prev, winner]);
     setMatchIndex((prev) => prev + 1);
   };
@@ -51,21 +47,13 @@ export default function VsPage() {
     const totalMatches = currentRound.length / 2;
 
     if (matchIndex === totalMatches && totalMatches !== 0) {
-      // 이번 라운드 끝
       if (winners.length === totalMatches) {
-        // 라운드 승자가 전부 모임
         if (winners.length === 1) {
-          // 우승자 확정
           const finalWinner = winners[0];
-          console.log("우승자:", finalWinner);
-
-          // finalRanking 에 전체 클릭 순서 저장
+          console.log("winner:", finalWinner);
           localStorage.setItem("finalRanking", JSON.stringify(selectedWinners));
-
-          // **자동으로 /ranking 페이지로 이동** (버튼 없이 즉시 이동)
           router.push("/Ranking");
         } else {
-          // 다음 라운드 진행
           setCurrentRound(winners);
           setWinners([]);
           setMatchIndex(0);
@@ -79,13 +67,12 @@ export default function VsPage() {
     return <p>Loading bracket data...</p>;
   }
 
-  // 아직 남은 매치가 있다면
   if (pair.length === 2) {
     return (
       <div style={{ padding: "16px" }}>
         <h2>
-          {tournamentList.length}강 토너먼트 - Round {roundNumber},{" "}
-          매치 {matchIndex + 1} / {currentRound.length / 2}
+          Round {roundNumber} -{" "}
+          Match {matchIndex + 1} / {currentRound.length / 2}
         </h2>
         <div style={{ display: "flex", gap: "16px" }}>
           {pair.map((restaurant) => (
@@ -106,14 +93,15 @@ export default function VsPage() {
               />
               <h3>{restaurant.name}</h3>
               <p>{restaurant.category}</p>
+              <p>{restaurant.rating} ({restaurant.reviewCount})</p>
             </div>
           ))}
         </div>
-        <p>클릭하여 승자를 선택하세요.</p>
+        <p>Choose winner</p>
       </div>
     );
   } else {
     // 라운드 처리 중
-    return <p>라운드 종료 처리 중...</p>;
+    return <p>Loading...</p>;
   }
 }

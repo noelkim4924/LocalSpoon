@@ -27,12 +27,8 @@ export default function MainPage() {
   const [radius, setRadius] = useState<number>(3000); // Default radius: 3km
   const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
-
-  // 모달 열림/닫힘 상태
-  // const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [confirmModalOpen, setConfirmModalOpen] = useState<boolean>(false);
 
-  // Haversine formula to calculate distance
   const calculateDistance = (
     lat1: number,
     lon1: number,
@@ -55,7 +51,6 @@ export default function MainPage() {
     return R * c; // Distance in meters
   };
 
-  // 현재 위치 받아오기
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(
       (position) => {
@@ -66,7 +61,6 @@ export default function MainPage() {
     );
   }, []);
 
-  // Yelp API 호출 → localStorage에 최대 50개 레스토랑 저장
   const fetchRestaurants = async () => {
     if (!latitude || !longitude) {
       alert("Please provide your location.");
@@ -77,7 +71,7 @@ export default function MainPage() {
     try {
       const response = await fetch(
         `/api/yelp?latitude=${latitude}&longitude=${longitude}&radius=${radius}&limit=50`
-      ); // 최대 50개
+      ); // Max 50
 
       if (!response.ok) {
         const errorData = await response.json();
@@ -85,7 +79,6 @@ export default function MainPage() {
       }
 
       const data = await response.json();
-      // 받아온 데이터로 Restaurant 객체 생성
       const newRestaurants = data.businesses
         .map((business: any) => {
           const distance = calculateDistance(
@@ -109,14 +102,12 @@ export default function MainPage() {
             longitude: business.coordinates.longitude,
           };
         })
-        // 슬라이더로 설정한 radius 내에 있는 레스토랑만 필터
         .filter((restaurant: any) => restaurant.distance <= radius);
 
       setRestaurants(newRestaurants);
       localStorage.setItem("restaurants", JSON.stringify(newRestaurants));
       console.log("Data stored in local storage:", newRestaurants);
       setConfirmModalOpen(true);
-      // alert(`총 ${newRestaurants.length}개의 레스토랑 정보를 불러왔습니다!`);
     } catch (error) {
       console.error("Error fetching restaurants:", error);
       alert("Failed to fetch restaurants. Please try again.");
@@ -129,7 +120,6 @@ export default function MainPage() {
     <div className="p-4">
       <h1 className="text-2xl font-bold mb-4">Find Restaurants Near You</h1>
 
-      {/* 지도 표시 */}
       {latitude && longitude && (
         <MapContainer
           center={[latitude, longitude]}
@@ -169,7 +159,6 @@ export default function MainPage() {
         </MapContainer>
       )}
 
-      {/* 거리 슬라이더 */}
       <Box sx={{ width: 300 }}>
         <p>Radius (in km): {radius / 1000}</p>
         <Slider
@@ -184,7 +173,6 @@ export default function MainPage() {
         />
       </Box>
 
-      {/* 레스토랑 찾기 버튼 */}
       <button
         onClick={fetchRestaurants}
         className="bg-blue-500 text-white p-2 rounded mt-2 mr-2"
@@ -192,45 +180,8 @@ export default function MainPage() {
         Find Restaurants
       </button>
 
-      {/* 이상형 월드컵 시작하기 버튼 (모달 열기) */}
-      {/* <button
-        onClick={() => setModalOpen(true)}
-        className="bg-green-500 text-white p-2 rounded mt-2"
-      >
-        이상형 월드컵 시작하기
-      </button> */}
-
       {loading && <p>Loading...</p>}
-
-      {/* 검색 결과 리스트 */}
-      {/* <ul className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
-        {restaurants.map((restaurant) => (
-          <li key={restaurant.id} className="border p-4 rounded shadow-md">
-            <img
-              src={restaurant.imageUrl}
-              alt={restaurant.name}
-              className="w-full h-40 object-cover rounded mb-2"
-            />
-            <h3 className="font-bold text-lg">{restaurant.name}</h3>
-            <p className="text-sm text-gray-600">{restaurant.address}</p>
-            <p>
-              Rating: {restaurant.rating} ({restaurant.reviewCount} reviews)
-            </p>
-            <p>Category: {restaurant.category}</p>
-            <p>Distance: {(restaurant.distance / 1000).toFixed(1)} km</p>
-            <a
-              href={restaurant.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-blue-500 underline"
-            >
-              View on Yelp
-            </a>
-          </li>
-        ))}
-      </ul> */}
-
-      {/* 모달 컴포넌트 (BracketSelectModal) */}
+      
       <BracketSelectModal isOpen={confirmModalOpen} onClose={() => setConfirmModalOpen(false)} />
     </div>
   );
