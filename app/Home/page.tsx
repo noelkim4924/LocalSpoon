@@ -25,7 +25,6 @@ export default function MainPage() {
   const [latitude, setLatitude] = useState<number | null>(null);
   const [longitude, setLongitude] = useState<number | null>(null);
   const [radius, setRadius] = useState<number>(3000); // Default radius: 3km
-  const [radius, setRadius] = useState<number>(3000); // Default radius: 3km
   const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
 
