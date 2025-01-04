@@ -37,10 +37,24 @@ export default function MainPage() {
       const response = await fetch(
         `/api/yelp?latitude=${latitude}&longitude=${longitude}&radius=${radius}`
       );
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Failed to fetch data.");
+      }
+
       const data = await response.json();
-      setRestaurants(data.businesses);
+      setRestaurants(
+        data.businesses.map((business: any) => ({
+          id: business.id,
+          name: business.name,
+          rating: business.rating,
+          distance: business.distance,
+        }))
+      );
     } catch (error) {
       console.error("Error fetching restaurants:", error);
+      alert("Failed to fetch restaurants. Please try again.");
     } finally {
       setLoading(false);
     }
