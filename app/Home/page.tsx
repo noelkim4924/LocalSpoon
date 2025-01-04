@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
-import { GoogleMap, Marker, useJsApiLoader, Autocomplete } from "@react-google-maps/api";
+import { GoogleMap, Marker, Circle, useJsApiLoader, Autocomplete } from "@react-google-maps/api";
 import Slider from "@mui/material/Slider";
 import BracketSelectModal from "@/components/Modal/Modal";
 
@@ -22,7 +22,7 @@ interface Restaurant {
 export default function MainPage() {
   const [latitude, setLatitude] = useState<number | null>(null);
   const [longitude, setLongitude] = useState<number | null>(null);
-  const [radius, setRadius] = useState<number>(3000); // Default radius: 3km
+  const [radius, setRadius] = useState<number | null>(null); // Default radius: 3km
   const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [confirmModalOpen, setConfirmModalOpen] = useState<boolean>(false);
@@ -75,6 +75,9 @@ export default function MainPage() {
   const fetchRestaurants = async () => {
     if (!latitude || !longitude) {
       alert("Please provide a valid location.");
+      return;
+    } else if (!radius) {
+      alert("Please provide a valid radius.");
       return;
     }
 
@@ -165,13 +168,28 @@ export default function MainPage() {
       </div>
 
       {/* Google Map */}
-      {latitude != null && longitude != null && (
+      {latitude && longitude && (
         <GoogleMap
           center={{ lat: latitude, lng: longitude }}
           zoom={13}
           mapContainerStyle={{ width: "100%", height: "400px" }}
         >
+          <Circle
+            center={{ lat: latitude, lng: longitude }}
+            radius={radius}
+            options={{
+              strokeColor: "#008000", // Circle border color
+              strokeOpacity: 0.8,
+              strokeWeight: 2,
+              fillColor: "#008000", // Circle fill color
+              fillOpacity: 0.2,
+            }}
+          />
+
+          {/* Marker for the center */}
           <Marker position={{ lat: latitude, lng: longitude }} />
+
+          {/* Markers for restaurants */} 
           {restaurants.map((restaurant) => (
             <Marker
               key={restaurant.id}
@@ -186,13 +204,13 @@ export default function MainPage() {
         <p>Radius (in km): {radius / 1000}</p>
         <Slider
           aria-label="Distance"
-          defaultValue={3}
+          // defaultValue={3} // Default is 3 km
           valueLabelDisplay="auto"
           step={1}
           marks
-          min={1}
-          max={10}
-          onChange={(e, value) => setRadius((value as number) * 1000)}
+          min={1} // Minimum radius is 1 km
+          max={10} // Maximum radius is 10 km
+          onChange={(e, value) => setRadius((value as number) * 1000)} // Update state
         />
       </Box>
 
@@ -205,7 +223,7 @@ export default function MainPage() {
       </button>
 
       {loading && <p>Loading...</p>}
-      
+
       <BracketSelectModal isOpen={confirmModalOpen} onClose={() => setConfirmModalOpen(false)} />
     </div>
   );
