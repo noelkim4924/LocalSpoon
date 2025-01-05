@@ -13,7 +13,7 @@
 
 .background_trapezoid {
     clip-path: polygon(0% 0%, 100% 0%, 77% 100%, 0% 100%);
-    background-color: antiquewhite;
+    background-color: #FEDE7D;
     border-radius: 2rem;
     transition: transform 0.3s ease;
     /* padding: 10px; */
@@ -21,7 +21,7 @@
 
 .background_reverse_trapezoid {
     clip-path: polygon(23% 0%, 100% 0%, 100% 100%, 0% 100%);
-    background-color: rgb(225, 225, 255);
+    background-color: #B5E1E7;
     border-radius: 2rem;
     transition: transform 0.3s ease;
 }

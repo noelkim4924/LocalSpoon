@@ -57,14 +57,14 @@ export default function BracketSelectModal({ isOpen, onClose }: ModalProps) {
         onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside the modal
       >
         <h2 className="text-[36px] mb-4">
-          We found <span className="text-blue-300">{allRestaurants.length}</span> restaurants
+          We found <span className="text-[#F58220] font-bold">{allRestaurants.length}</span> restaurants
         </h2>
         <p className="mb-4">Choose the number of rounds to play:</p>
         <div className="flex gap-2 mt-3 justify-center">
           {allRestaurants.length >= 8 && (
             <button
               onClick={() => handleSelectBracket(8)}
-              className="bg-blue-500 text-white px-3 py-2 rounded-[22px] w-[60px] h-[60px] mr-2 text-[18px]"
+              className="bg-[#FFBF00] px-3 py-2 rounded-[22px] w-[60px] h-[60px] mr-2 text-[18px]"
             >
               8
             </button>
@@ -72,7 +72,7 @@ export default function BracketSelectModal({ isOpen, onClose }: ModalProps) {
           {allRestaurants.length >= 16 && (
             <button
               onClick={() => handleSelectBracket(16)}
-              className="bg-blue-500 text-white px-3 py-2 rounded-[22px] w-[60px] h-[60px] mr-2 text-[18px]"
+              className="bg-[#FFDE7D] px-3 py-2 rounded-[22px] w-[60px] h-[60px] mr-2 text-[18px]"
             > 
               16
             </button>
@@ -80,7 +80,7 @@ export default function BracketSelectModal({ isOpen, onClose }: ModalProps) {
           {allRestaurants.length > 31 && (
             <button
               onClick={() => handleSelectBracket(32)}
-              className="bg-blue-500 text-white px-3 py-2 rounded-[22px] w-[60px] h-[60px] mr-2 text-[18px]"
+              className="bg-[#FFF5BE] px-3 py-2 rounded-[22px] w-[60px] h-[60px] mr-2 text-[18px]"
             >
               32
             </button>
