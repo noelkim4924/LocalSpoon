@@ -113,106 +113,106 @@ export default function RankingPage() {
         <div className="flex flex-col lg:flex-row justify-between items-start w-full px-4 lg:px-10 gap-4 lg:gap-10 relative">
           {/* Podium */}
           <div className="flex flex-row justify-center items-center gap-4 basis-[40%] flex-grow-0 ml-[30%] lg:ml-0">
-          {/* Rank 1 */}
-  <div className="flex flex-col items-center">
-    <Avatar
-      src={ranking[0]?.imageUrl || ""}
-      alt={ranking[0]?.name || "N/A"}
-      sx={{
-        width: { xs: 80, sm: 120, lg: 100 },
-        height: { xs: 80, sm: 120, lg: 100 },
-        border: "4px solid gold",
-      }}
-    />
-    <Box
-      sx={{
-        width: { xs: 70, sm: 100, lg: 110 },
-        height: { xs: 100, sm: 140, lg: 250 },
-        backgroundColor: "gold",
-        borderRadius: "8px 8px 0 0",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        mt: 2,
-      }}
-    >
-      <Typography variant="h5" color="white" fontWeight="bold">
-        🥇
-      </Typography>
-    </Box>
-    <Typography
-      align="center"
-      sx={{
-        maxWidth: 120,
-        fontWeight: "bold",
-        wordWrap: "break-word",
-        mt: 2,
-      }}
-    >
-      {ranking[0]?.name}
-    </Typography>
-    <Typography align="center" color="textSecondary">
-      {ranking[0]?.category}
-    </Typography>
-    <Rating
-      value={ranking[0]?.rating || 0}
-      precision={0.5}
-      readOnly
-      size="small"
-      sx={{ mt: 1 }}
-    />
-  </div>
+            {/* Rank 1 */}
+            <div className="flex flex-col items-center">
+              <Avatar
+                src={ranking[0]?.imageUrl || ""}
+                alt={ranking[0]?.name || "N/A"}
+                sx={{
+                  width: { xs: 80, sm: 120, lg: 100 },
+                  height: { xs: 80, sm: 120, lg: 100 },
+                  border: "4px solid gold",
+                }}
+              />
+              <Box
+                sx={{
+                  width: { xs: 70, sm: 100, lg: 110 },
+                  height: { xs: 100, sm: 140, lg: 250 },
+                  backgroundColor: "gold",
+                  borderRadius: "8px 8px 0 0",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  mt: 2,
+                }}
+              >
+                <Typography variant="h5" color="white" fontWeight="bold">
+                  🥇
+                </Typography>
+              </Box>
+              <Typography
+                align="center"
+                sx={{
+                  maxWidth: 120,
+                  fontWeight: "bold",
+                  wordWrap: "break-word",
+                  mt: 2,
+                }}
+              >
+                {ranking[0]?.name}
+              </Typography>
+              <Typography align="center" color="textSecondary">
+                {ranking[0]?.category}
+              </Typography>
+              <Rating
+                value={ranking[0]?.rating || 0}
+                precision={0.5}
+                readOnly
+                size="small"
+                sx={{ mt: 1 }}
+              />
+            </div>
 
-  {/* Rank 2 */}
-  <div className="flex flex-col items-center">
-    <Avatar
-      src={ranking[1]?.imageUrl || ""}
-      alt={ranking[1]?.name || "N/A"}
-      sx={{
-        width: { xs: 70, sm: 110, lg: 100 },
-        height: { xs: 70, sm: 110, lg: 100 },
-        border: "4px solid silver",
-      }}
-    />
-    <Box
-      sx={{
-        width: { xs: 60, sm: 90, lg: 100 },
-        height: { xs: 80, sm: 120, lg: 200 },
-        backgroundColor: "silver",
-        borderRadius: "8px 8px 0 0",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        mt: 2,
-      }}
-    >
-      <Typography variant="h5" color="white" fontWeight="bold">
-        🥈
-      </Typography>
-    </Box>
-    <Typography
-      align="center"
-      sx={{
-        maxWidth: 120,
-        fontWeight: "bold",
-        wordWrap: "break-word",
-        mt: 2,
-      }}
-    >
-      {ranking[1]?.name}
-    </Typography>
-    <Typography align="center" color="textSecondary">
-      {ranking[1]?.category}
-    </Typography>
-    <Rating
-      value={ranking[1]?.rating || 0}
-      precision={0.5}
-      readOnly
-      size="small"
-      sx={{ mt: 1 }}
-    />
-  </div>
-</div>
+            {/* Rank 2 */}
+            <div className="flex flex-col items-center">
+              <Avatar
+                src={ranking[1]?.imageUrl || ""}
+                alt={ranking[1]?.name || "N/A"}
+                sx={{
+                  width: { xs: 70, sm: 110, lg: 100 },
+                  height: { xs: 70, sm: 110, lg: 100 },
+                  border: "4px solid silver",
+                }}
+              />
+              <Box
+                sx={{
+                  width: { xs: 60, sm: 90, lg: 100 },
+                  height: { xs: 80, sm: 120, lg: 200 },
+                  backgroundColor: "silver",
+                  borderRadius: "8px 8px 0 0",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  mt: 2,
+                }}
+              >
+                <Typography variant="h5" color="white" fontWeight="bold">
+                  🥈
+                </Typography>
+              </Box>
+              <Typography
+                align="center"
+                sx={{
+                  maxWidth: 120,
+                  fontWeight: "bold",
+                  wordWrap: "break-word",
+                  mt: 2,
+                }}
+              >
+                {ranking[1]?.name}
+              </Typography>
+              <Typography align="center" color="textSecondary">
+                {ranking[1]?.category}
+              </Typography>
+              <Rating
+                value={ranking[1]?.rating || 0}
+                precision={0.5}
+                readOnly
+                size="small"
+                sx={{ mt: 1 }}
+              />
+            </div>
+          </div>
 
           {/* Table Section */}
           <div className="w-full lg:basis-[60%] bg-white overflow-x-auto flex-grow-0" style={{ opacity: 0.9, padding: "16px", borderRadius: "12px" }}>

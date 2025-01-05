@@ -81,6 +81,7 @@
     opacity: 0;
     transform: scale(0.9);
   }
+
   to {
     opacity: 1;
     transform: scale(1);
@@ -202,9 +203,12 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 500px; /* Fixed width to match the image */
-  height: 300px; /* Fixed height to match the image */
-  overflow: hidden; /* Ensure no overflow */
+  width: 500px;
+  /* Fixed width to match the image */
+  height: 300px;
+  /* Fixed height to match the image */
+  overflow: hidden;
+  /* Ensure no overflow */
 }
 
 .fixed-image {
@@ -239,7 +243,8 @@
 
 @media (max-width: 768px) {
   .rank-1 {
-    top: -15%; /* Adjust for smaller screens */
+    top: -15%;
+    /* Adjust for smaller screens */
     left: 50%;
     transform: translateX(-50%);
   }
