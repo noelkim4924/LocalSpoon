@@ -63,12 +63,6 @@ export default function StartingLottie() {
       >
         Starting {animatedDots}
       </p>
-
-      <img
-        src="/images/logo.png"
-        alt="Local Spoon Logo"
-        style={{ marginTop: 12, width: 200, height: "auto" }}
-      />
     </div>
   );
 }

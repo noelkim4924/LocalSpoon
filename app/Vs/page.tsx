@@ -27,7 +27,6 @@ export default function VsPage() {
   const [winners, setWinners] = useState<Restaurant[]>([]);
   const [roundNumber, setRoundNumber] = useState(1);
 
-
   const [selectedWinners, setSelectedWinners] = useState<Restaurant[]>([]);
 
   useEffect(() => {
@@ -56,15 +55,14 @@ export default function VsPage() {
 
     if (matchIndex === totalMatches && totalMatches !== 0) {
       if (winners.length === totalMatches) {
-        // 현재 라운드 승자 목록이 모두 채워진 경우
         if (winners.length === 1) {
-          // 우승자가 1명이면 최종 우승
           const finalWinner = winners[0];
           console.log("winner:", finalWinner);
           localStorage.setItem("finalRanking", JSON.stringify(selectedWinners));
-          router.push("/Ranking");
+
+          router.push("/Loading2");
         } else {
-          // 다음 라운드로 진출
+
           setCurrentRound(winners);
           setWinners([]);
           setMatchIndex(0);
@@ -73,7 +71,6 @@ export default function VsPage() {
       }
     }
   }, [matchIndex, winners, currentRound, selectedWinners, router]);
-
   if (!tournamentList.length) {
     return <p>Loading bracket data...</p>;
   }
