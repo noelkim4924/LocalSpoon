@@ -28,9 +28,11 @@ export default function MainPage() {
   const [confirmModalOpen, setConfirmModalOpen] = useState<boolean>(false);
   const [searchLocation, setSearchLocation] = useState<string>("");
   const [autoSlide, setAutoSlide] = useState(true);
-  const [autocomplete, setAutocomplete] = useState<any>(null); 
+  const [currentSlide, setCurrentSlide] = useState(0); // 현재 슬라이드 인덱스
+  const [autocomplete, setAutocomplete] = useState<any>(null);
 
   const sliderRef = useRef<HTMLDivElement>(null);
+  const slideCount = 3; // 슬라이드 카드 개수
 
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || "",
@@ -54,32 +56,34 @@ export default function MainPage() {
     if (!autoSlide) return;
 
     const interval = setInterval(() => {
-      if (sliderRef.current) {
-        sliderRef.current.scrollBy({ left: sliderRef.current.offsetWidth, behavior: "smooth" });
-        if (
-          sliderRef.current.scrollLeft + sliderRef.current.offsetWidth >=
-          sliderRef.current.scrollWidth
-        ) {
-          sliderRef.current.scrollTo({ left: 0, behavior: "smooth" });
-        }
-      }
+      setCurrentSlide((prev) => (prev + 1) % slideCount); // 다음 슬라이드로 이동
     }, 3000);
 
     return () => clearInterval(interval);
   }, [autoSlide]);
 
-  const scrollLeft = () => {
+  useEffect(() => {
     if (sliderRef.current) {
-      sliderRef.current.scrollBy({ left: -sliderRef.current.offsetWidth, behavior: "smooth" });
-      setAutoSlide(false);
+      sliderRef.current.scrollTo({
+        left: sliderRef.current.offsetWidth * currentSlide,
+        behavior: "smooth",
+      });
     }
+  }, [currentSlide]);
+
+  const scrollLeft = () => {
+    setAutoSlide(false); // 수동으로 조작 시 자동 슬라이드 중지
+    setCurrentSlide((prev) => (prev - 1 + slideCount) % slideCount);
   };
 
   const scrollRight = () => {
-    if (sliderRef.current) {
-      sliderRef.current.scrollBy({ left: sliderRef.current.offsetWidth, behavior: "smooth" });
-      setAutoSlide(false);
-    }
+    setAutoSlide(false); // 수동으로 조작 시 자동 슬라이드 중지
+    setCurrentSlide((prev) => (prev + 1) % slideCount);
+  };
+
+  const goToSlide = (index: number) => {
+    setAutoSlide(false); // 수동으로 조작 시 자동 슬라이드 중지
+    setCurrentSlide(index);
   };
 
   // Haversine formula to calculate distance
@@ -249,32 +253,35 @@ export default function MainPage() {
           </div>
         </div>
 
-        <div className="w-full mt-12 relative">
-          <button
-            className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-gray-200 text-gray-800 rounded-full p-2 shadow-lg hover:bg-gray-300"
-            onClick={scrollLeft}
-          >
-            &lt;
-          </button>
-          <div
-            ref={sliderRef}
-            className="flex overflow-x-auto gap-4 custom-scrollbar"
-            style={{ scrollSnapType: "x mandatory" }}
-          >
-            {[1, 2, 3, 4, 5].map((_, index) => (
-              <div
+       {/* 배너 슬라이드 */}
+       <div className="w-full mt-12 relative">
+  {/* 화살표 제거 */}
+  <div
+    ref={sliderRef}
+    className="flex gap-4"
+    style={{ width: "100%", overflow: "hidden" }}
+  >
+    {[1, 2, 3].map((_, index) => (
+      <div
+        key={index}
+        className={`flex-shrink-0 w-full h-[200px] bg-gray-300 rounded shadow transition-transform duration-300 ${
+          currentSlide === index ? "opacity-100" : "opacity-50"
+        }`}
+      />
+    ))}
+  </div>
+          {/* 슬라이드 인디케이터 */}
+          <div className="flex justify-center mt-4">
+            {[...Array(slideCount)].map((_, index) => (
+              <button
                 key={index}
-                className="flex-shrink-0 w-full h-[200px] bg-gray-300 rounded shadow"
-                style={{ scrollSnapAlign: "start" }}
-              />
+                onClick={() => goToSlide(index)}
+                className={`w-4 h-4 rounded-full mx-1 ${
+                  currentSlide === index ? "bg-gray-800" : "bg-gray-400"
+                }`}
+              ></button>
             ))}
           </div>
-          <button
-            className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-gray-200 text-gray-800 rounded-full p-2 shadow-lg hover:bg-gray-300"
-            onClick={scrollRight}
-          >
-            &gt;
-          </button>
         </div>
       </div>
 
