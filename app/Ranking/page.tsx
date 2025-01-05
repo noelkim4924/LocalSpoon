@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { Rating, Avatar, Typography, Box, colors } from "@mui/material";
+import { Rating, Avatar, Typography, Box } from "@mui/material";
 import styles from "./page.module.css";
 interface Restaurant {
   id: string;
@@ -109,14 +109,13 @@ export default function RankingPage() {
         <Typography>No data.</Typography>
       ) : (
         <div className="flex justify-between items-start w-full px-10 gap-10 relative mt-36">
-          {/* Podium Section */}
           <div className="flex flex-col items-center w-[55%] relative">
             {/* Rank 1 */}
             <div
               className="flex flex-col items-center absolute z-10"
               style={{
-                top: "-23%",
-                left: "28%",
+                top: "-25%",
+                left: "26.5%",
               }}
             >
               <Avatar
@@ -135,25 +134,31 @@ export default function RankingPage() {
                 justifyContent="center"
                 sx={{
                   width: "150px",
-                  height: "60px",
+                  minHeight: "60px",
                   backgroundColor: "#857777",
-                  border: "1px solid #ddd",
-                  borderRadius: "8px",
+                  borderRadius: "10px",
                   textAlign: "center",
                   overflow: "hidden",
                   wordWrap: "break-word",
-                  whiteSpace: "normal"
+                  whiteSpace: "normal",
+                  boxShadow: "0px 5px 6px rgba(0, 0, 0, 0.2)",
+                  padding: "5px"
                 }}
               >
-                <Typography align="center" sx={{ fontWeight: "bold", fontSize: "12px", color: "white", wordWrap: "break-word", overflowWrap: "break-word" }}>
+                <Typography align="center" sx={{
+                  fontWeight: "bold",
+                  fontSize: "12px",
+                  color: "white",
+                  wordBreak: "break-word",
+                }}>
                   {ranking[0]?.name}
                 </Typography>
-                <Typography align="center" color="textSecondary" sx={{ fontSize: "10px", color: "white", wordWrap: "break-word", overflowWrap: "break-word", whiteSpace: "normal" }}>
+                <Typography align="center" color="textSecondary" sx={{ fontSize: "10px", color: "white", wordBreak: "break-word" }}>
                   {ranking[0]?.category}
                 </Typography>
                 <Rating
                   value={ranking[0]?.rating || 0}
-                  precision={0.5}
+                  precision={0.1}
                   readOnly
                   size="small"
                 />
@@ -184,21 +189,31 @@ export default function RankingPage() {
                 justifyContent="center"
                 sx={{
                   width: "150px",
-                  height: "60px",
+                  minHeight: "60px",
                   backgroundColor: "#857777",
-                  border: "1px solid #ddd",
-                  borderRadius: "8px"
+                  borderRadius: "10px",
+                  textAlign: "center",
+                  overflow: "hidden",
+                  wordWrap: "break-word",
+                  whiteSpace: "normal",
+                  boxShadow: "0px 5px 6px rgba(0, 0, 0, 0.2)",
+                  padding: "5px"
                 }}
               >
-                <Typography align="center" sx={{ fontWeight: "bold", fontSize: "12px", color: "white" }}>
+                <Typography align="center" sx={{
+                  fontWeight: "bold",
+                  fontSize: "12px",
+                  color: "white",
+                  wordBreak: "break-word",
+                }}>
                   {ranking[1]?.name}
                 </Typography>
-                <Typography align="center" color="textSecondary" sx={{ fontSize: "10px", color: "white" }}>
+                <Typography align="center" color="textSecondary" sx={{ fontSize: "10px", color: "white", wordBreak: "break-word" }}>
                   {ranking[1]?.category}
                 </Typography>
                 <Rating
                   value={ranking[1]?.rating || 0}
-                  precision={0.5}
+                  precision={0.1}
                   readOnly
                   size="small"
                 />
@@ -217,10 +232,16 @@ export default function RankingPage() {
           </div>
 
           {/* Table Section */}
-          <div className="w-[45%]">
-            <table className="table-auto w-full border-collapse border border-gray-200">
-              <thead>
-                <tr className="bg-gray-100 text-left">
+          <div className="w-[45%] bg-white" style={{ opacity: 0.7, padding: "20px", borderRadius: "12px" }}>
+            <table className="table-auto w-full">
+              <thead
+                style={{
+                  fontSize: "12px",
+                  fontWeight: "bold",
+                  borderBottom: "1px solid #A99E9E",
+                }}
+              >
+                <tr className="text-left">
                   <th className="px-4 py-2">Rank</th>
                   <th className="px-4 py-2">Restaurant</th>
                   <th className="px-4 py-2">Category</th>
@@ -228,15 +249,20 @@ export default function RankingPage() {
                 </tr>
               </thead>
               <tbody>
-                {ranking.slice(2, 8).map((res, idx) => (
-                  <tr key={res.id} className="hover:bg-gray-50">
+                {ranking.slice(2, 8).map((res, idx, arr) => (
+                  <tr
+                    key={res.id}
+                    style={{
+                      borderBottom: idx !== arr.length - 1 ? "1px solid #A99E9E" : "none", // No border for the last row
+                    }}
+                  >
                     <td className="px-4 py-2">{idx + 3}</td>
                     <td className="px-4 py-2">{res.name}</td>
                     <td className="px-4 py-2">{res.category}</td>
                     <td className="px-4 py-2">
                       <Rating
                         value={res.rating || 0}
-                        precision={0.5}
+                        precision={0.1}
                         readOnly
                         size="small"
                       />
