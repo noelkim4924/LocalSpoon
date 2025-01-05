@@ -3,7 +3,7 @@ import Link from 'next/link'
 
 export default function Nav() {
   return (
-    <nav className="flex items-center  px-[16%] py-2 bg-gray-100 shadow">
+    <nav className="flex items-center  px-[16%] py-2 bg-[#FFF3DE] shadow">
       <Link href="/">
         <img
           src="/images/logo.png"
