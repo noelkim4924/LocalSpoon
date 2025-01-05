@@ -27,7 +27,6 @@ export default function VsPage() {
   const [winners, setWinners] = useState<Restaurant[]>([]);
   const [roundNumber, setRoundNumber] = useState(1);
 
-
   const [selectedWinners, setSelectedWinners] = useState<Restaurant[]>([]);
 
   useEffect(() => {
@@ -56,15 +55,10 @@ export default function VsPage() {
 
     if (matchIndex === totalMatches && totalMatches !== 0) {
       if (winners.length === totalMatches) {
-        // 현재 라운드 승자 목록이 모두 채워진 경우
         if (winners.length === 1) {
-          // 우승자가 1명이면 최종 우승
-          const finalWinner = winners[0];
-          console.log("winner:", finalWinner);
           localStorage.setItem("finalRanking", JSON.stringify(selectedWinners));
           router.push("/Ranking");
         } else {
-          // 다음 라운드로 진출
           setCurrentRound(winners);
           setWinners([]);
           setMatchIndex(0);
@@ -81,42 +75,46 @@ export default function VsPage() {
   if (pair.length === 2) {
     return (
       <div className="min-h-screen flex flex-col justify-center items-center bg-[#FFF3DE] p-4">
-        <div className="w-[750px] flex justify-end">
-          <img
+        <div className={`${styles.flag_bar} w-[50vw] flex justify-end`}>
+          <Image
             src="/images/flag.png"
             alt="Flag Icon"
             className="w-[50px] h-[50px]"
           />
         </div>
 
-        <div className="relative w-[970px] h-[60px] bg-[#ddd] rounded-[20px] overflow-visible mb-[40px]">
+        <div
+          className={`${styles.progress_bar} relative w-[56vw] h-[6.5vh] bg-[#ddd] rounded-[20px] overflow-visible mb-[40px]`}
+        >
           <div
-            className="absolute top-0 left-0 h-full bg-[#FA9D39] transition-all duration-300"
+            className="absolute top-0 left-0 h-full bg-[#FA9D39] transition-all duration-300 rounded-[20px]"
             style={{
-              width: `${(currentRoundNumber * 100) / tournamentList.length - 1}%`,
+              width: `${
+                (currentRoundNumber * 100) / tournamentList.length - 1
+              }%`,
             }}
           />
-          <img
+          <Image
             src={`/images/round${roundNumber}.png`}
             alt="Middle Icon"
-            className="absolute w-[150px] h-[150px] 
+            className={`${styles.round_image} absolute w-[150px] h-[150px] 
                        top-1/4 left-1/2 
                        transform -translate-x-1/2 -translate-y-1/2 
-                       z-[9999]"
+                       z-[9999]`}
           />
         </div>
 
-        <div className="flex">
+        <div className="hidden md:flex flex-row justify-center gap-4">
           <div
             key={pair[0].id}
             onClick={() => handleSelectWinner(pair[0])}
-            className={`${styles.background_trapezoid} hover:scale-105 transition-transform duration-300 w-[540px] border border-gray-300 cursor-pointer p-2`}
+            className={`${styles.background_trapezoid} hover:scale-105 transition-transform duration-300 w-[31vw] border border-gray-300 cursor-pointer p-2`}
           >
-            <img
+            <Image
               src={pair[0].imageUrl}
               alt={pair[0].name}
-              style={{ width: "100%", height: "550px", objectFit: "cover" }}
-              className={styles.trapezoid}
+              style={{ width: "100%", objectFit: "cover" }}
+              className={`${styles.trapezoid} h-[60vh]`}
             />
             <div className="ml-3 mt-5 mb-5">
               <h3 className="text-[26px]">{pair[0].name}</h3>
@@ -139,7 +137,7 @@ export default function VsPage() {
           <div
             key={pair[1].id}
             onClick={() => handleSelectWinner(pair[1])}
-            className={`${styles.background_reverse_trapezoid} hover:scale-105 transition-transform duration-300 w-[540px] border border-gray-300 cursor-pointer p-2 ml-[-110px]`}
+            className={`${styles.background_reverse_trapezoid} hover:scale-105 transition-transform duration-300 w-[31vw] border border-gray-300 cursor-pointer p-2 ml-[-11%]`}
           >
             <div className="text-right mr-3 mt-5 mb-5">
               <h3 className="text-[26px]">{pair[1].name}</h3>
@@ -157,12 +155,81 @@ export default function VsPage() {
               </div>
               <p className="italic">{pair[1].category} restaurant</p>
             </div>
-            <img
+            <Image
               src={pair[1].imageUrl}
               alt={pair[1].name}
-              style={{ width: "100%", height: "550px", objectFit: "cover" }}
-              className={styles.reverseTrapezoid}
+              style={{ width: "100%", objectFit: "cover" }}
+              className={`${styles.reverseTrapezoid} h-[60vh]`}
             />
+          </div>
+        </div>
+
+        {/* For screens smaller than 768px */}
+        <div className="flex flex-col md:hidden justify-center items-center gap-4">
+          <div
+            key={pair[0].id}
+            onClick={() => handleSelectWinner(pair[0])}
+            className={`${styles.background_trapezoid} hover:scale-105 transition-transform duration-300 w-[31vw] border border-gray-300 cursor-pointer p-2`}
+          >
+            <div className="ml-3 mt-1 mb-3">
+              <h3 className="text-[18px]">{pair[0].name}</h3>
+              <div className="flex items-center text-[14px]">
+                {pair[0].rating}
+                <Stack spacing={1} className="ml-1">
+                  <Rating
+                    name="half-rating-read"
+                    defaultValue={pair[0].rating}
+                    precision={0.1}
+                    readOnly
+                  />
+                </Stack>
+                <span className="ml-1 text-[14px]">
+                  ({pair[0].reviewCount})
+                </span>
+              </div>
+              <p className="italic text-[14px]">
+                {pair[0].category} restaurant
+              </p>
+            </div>
+            <Image
+              src={pair[0].imageUrl}
+              alt={pair[0].name}
+              style={{ width: "100%", objectFit: "cover" }}
+              className={`${styles.trapezoid} h-[30vh]`}
+            />
+          </div>
+
+          <div
+            key={pair[1].id}
+            onClick={() => handleSelectWinner(pair[1])}
+            className={`${styles.background_reverse_trapezoid} hover:scale-105 transition-transform duration-300 w-[31vw] border border-gray-300 cursor-pointer p-2 mt-[-22%]`}
+          >
+            <Image
+              src={pair[1].imageUrl}
+              alt={pair[1].name}
+              style={{ width: "100%", objectFit: "cover" }}
+              className={`${styles.reverseTrapezoid} h-[30vh]`}
+            />
+            <div className="text-right mr-3 mt-3 mb-1">
+              <h3 className="text-[18px]">{pair[1].name}</h3>
+              <div className="flex items-center justify-end w-full">
+                <span className="text-[14px]">{pair[1].rating}</span>
+                <Stack spacing={1} className="ml-1">
+                  <Rating
+                    name="half-rating-read"
+                    defaultValue={pair[1].rating}
+                    precision={0.1}
+                    readOnly
+                  />
+                </Stack>
+                <span className="ml-1 text-[14px]">
+                  ({pair[1].reviewCount})
+                </span>
+              </div>
+              <p className="italic text-[14px]">
+                {pair[1].category} restaurant
+              </p>
+            </div>
           </div>
         </div>
       </div>
