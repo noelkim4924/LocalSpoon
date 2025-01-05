@@ -41,14 +41,14 @@ export default function LandingPage() {
     >
       <div className="flex flex-col items-center">
         <div
-          className="relative w-[600px] h-[600px] overflow-hidden bg-white"
+          className="relative w-[800px] h-[800px] overflow-hidden bg-white"
           style={{ borderRadius: "80px" }}
         >
           <div
             className="flex transition-transform duration-300"
             style={{
               width: `${slides.length * 600}px`,
-              transform: `translateX(-${currentSlide * 600}px)`,
+              transform: `translateX(-${currentSlide * 800}px)`,
             }}
           >
             {slides.map((slideSrc, index) => (
@@ -56,16 +56,16 @@ export default function LandingPage() {
                 key={`slide-${index}`}
                 className="flex-shrink-0 flex items-center justify-center"
                 style={{
-                  width: "600px",
-                  height: "600px",
+                  width: "800px",
+                  height: "800px",
                   backgroundColor: "#FFF3DE",
                 }}
               >
                 <Image
                   src={slideSrc}
                   alt={`Slide ${index + 1}`}
-                  width={600}
-                  height={600}
+                  width={800}
+                  height={800}
                   className="rounded"
                 />
               </div>
