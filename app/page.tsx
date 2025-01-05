@@ -11,8 +11,8 @@ export default function LandingPage() {
 
   const slides = [
     "/images/logo.png",
-    "/images/round2.png",
-    "/images/round3.png",
+    "/images/landing1.png",
+    "/images/landing2.png",
   ];
 
   useEffect(() => {
