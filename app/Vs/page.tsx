@@ -133,7 +133,7 @@ export default function VsPage() {
             />
             <div className="ml-3 mt-5 mb-5">
               <h3 className="text-[26px]">{pair[0].name}</h3>
-              <p className="flex items-center">
+              <div className="flex items-center">
                 {pair[0].rating}
                 <Stack spacing={1} className="ml-1">
                   <Rating
@@ -144,7 +144,7 @@ export default function VsPage() {
                   />
                 </Stack>
                 <span className="ml-1">({pair[1].reviewCount})</span>
-              </p>
+              </div>
               <p className="italic">{pair[0].category} restaurant</p>
             </div>
           </div>
