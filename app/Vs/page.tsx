@@ -2,7 +2,6 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import styles from "./page.module.css";
-import Head from "next/head";
 import Rating from "@mui/material/Rating";
 import Stack from "@mui/material/Stack";
 // import Round1 from '../../public/images/round1.png';
@@ -101,18 +100,18 @@ export default function VsPage() {
               transition: "width 0.3s ease-in-out",
             }}
           />
-  <img
-    src={`/images/round${roundNumber}.png`} // Corrected image path
-    alt="Middle Icon"
-    style={{
-      position: "absolute",
-      top: "4%", // Center vertically
-      left: "45%", // Center horizontally
-      width: "150px", // Adjust size as needed
-      height: "150px", // Adjust size as needed
-    }}
-    className="z-[9999]"
-  />
+          <img
+            src={`/images/round${roundNumber}.png`} // Corrected image path
+            alt="Middle Icon"
+            style={{
+              position: "absolute",
+              top: "4%", // Center vertically
+              left: "45%", // Center horizontally
+              width: "150px", // Adjust size as needed
+              height: "150px", // Adjust size as needed
+            }}
+            className="z-[9999]"
+          />
         </div>
         <div style={{ display: "flex" }}>
           <div
@@ -184,11 +183,9 @@ export default function VsPage() {
             />
           </div>
         </div>
-        {/* <p>Choose winner</p> */}
       </div>
     );
   } else {
-    // 라운드 처리 중
     return <p>Loading...</p>;
   }
 }
