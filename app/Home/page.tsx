@@ -34,11 +34,11 @@ export default function MainPage() {
   const [confirmModalOpen, setConfirmModalOpen] = useState<boolean>(false);
   const [searchLocation, setSearchLocation] = useState<string>("");
   const [autoSlide, setAutoSlide] = useState(true);
-  const [currentSlide, setCurrentSlide] = useState(0); // 현재 슬라이드 인덱스
+  const [currentSlide, setCurrentSlide] = useState(0); 
   const [autocomplete, setAutocomplete] = useState<any>(null);
 
   const sliderRef = useRef<HTMLDivElement>(null);
-  const slideCount = 3; // 슬라이드 카드 개수
+  const slideCount = 3; 
 
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || "",
@@ -64,7 +64,7 @@ export default function MainPage() {
     if (!autoSlide) return;
 
     const interval = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % slideCount); // 다음 슬라이드로 이동
+      setCurrentSlide((prev) => (prev + 1) % slideCount); 
     }, 3000);
 
     return () => clearInterval(interval);
@@ -80,17 +80,17 @@ export default function MainPage() {
   }, [currentSlide]);
 
   const scrollLeft = () => {
-    setAutoSlide(false); // 수동으로 조작 시 자동 슬라이드 중지
+    setAutoSlide(false); 
     setCurrentSlide((prev) => (prev - 1 + slideCount) % slideCount);
   };
 
   const scrollRight = () => {
-    setAutoSlide(false); // 수동으로 조작 시 자동 슬라이드 중지
+    setAutoSlide(false); 
     setCurrentSlide((prev) => (prev + 1) % slideCount);
   };
 
   const goToSlide = (index: number) => {
-    setAutoSlide(false); // 수동으로 조작 시 자동 슬라이드 중지
+    setAutoSlide(false);
     setCurrentSlide(index);
   };
 
@@ -162,7 +162,7 @@ export default function MainPage() {
             longitude: business.coordinates.longitude,
           };
         })
-        .filter((restaurant: any) => restaurant.distance <= radius);
+        .filter((restaurant: any) => restaurant.distance <= radius && restaurant.imageUrl);
 
       setRestaurants(newRestaurants);
       localStorage.setItem("restaurants", JSON.stringify(newRestaurants));

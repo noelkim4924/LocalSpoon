@@ -79,7 +79,8 @@ export default function VsPage() {
           <Image
             src="/images/flag.png"
             alt="Flag Icon"
-            className="w-[50px] h-[50px]"
+            width={50}
+            height={50}
           />
         </div>
 
@@ -97,7 +98,9 @@ export default function VsPage() {
           <Image
             src={`/images/round${roundNumber}.png`}
             alt="Middle Icon"
-            className={`${styles.round_image} absolute w-[150px] h-[150px] 
+            width={150}
+            height={150}
+            className={`${styles.round_image} absolute 
                        top-1/4 left-1/2 
                        transform -translate-x-1/2 -translate-y-1/2 
                        z-[9999]`}
@@ -113,6 +116,8 @@ export default function VsPage() {
             <Image
               src={pair[0].imageUrl}
               alt={pair[0].name}
+              width={300}
+              height={300}
               style={{ width: "100%", objectFit: "cover" }}
               className={`${styles.trapezoid} h-[60vh]`}
             />
@@ -158,6 +163,8 @@ export default function VsPage() {
             <Image
               src={pair[1].imageUrl}
               alt={pair[1].name}
+              width={300}
+              height={300}
               style={{ width: "100%", objectFit: "cover" }}
               className={`${styles.reverseTrapezoid} h-[60vh]`}
             />
@@ -194,6 +201,8 @@ export default function VsPage() {
             <Image
               src={pair[0].imageUrl}
               alt={pair[0].name}
+              width={300}
+              height={300}
               style={{ width: "100%", objectFit: "cover" }}
               className={`${styles.trapezoid} h-[30vh]`}
             />
@@ -207,6 +216,8 @@ export default function VsPage() {
             <Image
               src={pair[1].imageUrl}
               alt={pair[1].name}
+              width={300} 
+              height={300}
               style={{ width: "100%", objectFit: "cover" }}
               className={`${styles.reverseTrapezoid} h-[30vh]`}
             />
