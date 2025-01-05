@@ -11,6 +11,8 @@ export default function Nav() {
         <Image 
           src="/images/logo.png"
           alt="logo"
+          height={100}
+          width={100}
           className="h-[100px] w-auto"
         />
       </Link>
