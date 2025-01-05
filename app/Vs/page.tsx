@@ -53,7 +53,7 @@ export default function VsPage() {
       if (winners.length === totalMatches) {
         if (winners.length === 1) {
           localStorage.setItem("finalRanking", JSON.stringify(selectedWinners));
-          router.push("/Loading2");
+          router.push("/loading2");
         } else {
           setCurrentRound(winners);
           setWinners([]);

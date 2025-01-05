@@ -11,7 +11,7 @@ const WaitingLottie = dynamic(() => import("@/components/Lottie/WaitingLottie"),
   ssr: false,
 });
 
-export default function AnotherLoadingPage() {
+export default function otherLoadingPage() {
   const router = useRouter();
 
   useEffect(() => {
