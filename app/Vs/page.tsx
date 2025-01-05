@@ -81,7 +81,7 @@ export default function VsPage() {
   if (pair.length === 2) {
     return (
       <div className="min-h-screen flex flex-col justify-center items-center bg-[#FFF3DE] p-4">
-        <div className="w-[750px] flex justify-end mb-2">
+        <div className="w-[750px] flex justify-end">
           <img
             src="/images/flag.png"
             alt="Flag Icon"
@@ -89,7 +89,7 @@ export default function VsPage() {
           />
         </div>
 
-        <div className="relative w-[970px] h-[60px] bg-[#ddd] rounded-[20px] overflow-visible mb-[20px]">
+        <div className="relative w-[970px] h-[60px] bg-[#ddd] rounded-[20px] overflow-visible mb-[40px]">
           <div
             className="absolute top-0 left-0 h-full bg-[#FA9D39] transition-all duration-300"
             style={{
@@ -100,7 +100,7 @@ export default function VsPage() {
             src={`/images/round${roundNumber}.png`}
             alt="Middle Icon"
             className="absolute w-[150px] h-[150px] 
-                       top-1/2 left-1/2 
+                       top-1/4 left-1/2 
                        transform -translate-x-1/2 -translate-y-1/2 
                        z-[9999]"
           />
