@@ -42,23 +42,29 @@ export default function BracketSelectModal({ isOpen, onClose }: ModalProps) {
     localStorage.setItem("restaurantsForBracket", JSON.stringify(selected));
 
     onClose();
-    router.push("/Vs"); 
+    router.push("/Vs");
   };
 
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-[9999]">
-      <div className="bg-white p-6 rounded shadow-lg min-w-[280px] max-w-[400px] w-full text-center">
-        <h2 className="text-lg font-bold mb-4">
-          We found {allRestaurants.length} restaurants.
+    <div
+      className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-[9999]"
+      onClick={onClose} // Close modal when clicking on the backdrop
+    >
+      <div
+        className="bg-white p-6 rounded-3xl shadow-lg min-w-[280px] max-w-[700px] h-[280px] w-full text-center flex flex-col items-center justify-center"
+        onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside the modal
+      >
+        <h2 className="text-[36px] mb-4">
+          We found <span className="text-blue-300">{allRestaurants.length}</span> restaurants
         </h2>
         <p className="mb-4">Choose the number of rounds to play:</p>
-        <div className="flex gap-2 mb-4">
-        {allRestaurants.length >= 8 && (
+        <div className="flex gap-2 mt-3 justify-center">
+          {allRestaurants.length >= 8 && (
             <button
               onClick={() => handleSelectBracket(8)}
-              className="bg-blue-500 text-white px-3 py-2 rounded"
+              className="bg-blue-500 text-white px-3 py-2 rounded-[22px] w-[60px] h-[60px] mr-2 text-[18px]"
             >
               8
             </button>
@@ -66,23 +72,20 @@ export default function BracketSelectModal({ isOpen, onClose }: ModalProps) {
           {allRestaurants.length >= 16 && (
             <button
               onClick={() => handleSelectBracket(16)}
-              className="bg-blue-500 text-white px-3 py-2 rounded"
-            >
+              className="bg-blue-500 text-white px-3 py-2 rounded-[22px] w-[60px] h-[60px] mr-2 text-[18px]"
+            > 
               16
             </button>
           )}
           {allRestaurants.length > 31 && (
             <button
               onClick={() => handleSelectBracket(32)}
-              className="bg-blue-500 text-white px-3 py-2 rounded"
+              className="bg-blue-500 text-white px-3 py-2 rounded-[22px] w-[60px] h-[60px] mr-2 text-[18px]"
             >
               32
             </button>
           )}
         </div>
-        <button onClick={onClose} className="px-3 py-2 border rounded">
-          Close
-        </button>
       </div>
     </div>
   );
