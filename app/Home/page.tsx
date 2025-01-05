@@ -202,7 +202,7 @@ export default function MainPage() {
               />
             </Autocomplete>
             <Box sx={{ width: "100%" }} className="mb-6">
-              <p className="text-lg">Radius in {radius / 1000} km</p>
+              <p className="text-lg">Radius in {radius / 1000} (in km)</p>
               <Slider
                 aria-label="Distance"
                 valueLabelDisplay="auto"
@@ -222,7 +222,7 @@ export default function MainPage() {
           </div>
 
           <div
-            className="flex-[6] bg-white rounded shadow overflow-hidden"
+            className="flex-[6] bg-white rounded shadow o1verflow-hidden"
             style={{ aspectRatio: "1 / 1" }}
           >
             {latitude && longitude && (

@@ -34,9 +34,13 @@ export default function LandingPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center">
+  
+    <div
+      className="min-h-screen flex items-center justify-center"
+      style={{ backgroundColor: "#FFF3DE" }}
+    >
       <div className="flex flex-col items-center">
-        
+        {/* 슬라이더 컨테이너 */}
         <div
           className="relative w-[600px] h-[600px] overflow-hidden bg-white"
           style={{ borderRadius: "80px" }}
@@ -51,8 +55,12 @@ export default function LandingPage() {
             {slides.map((slideSrc, index) => (
               <div
                 key={`slide-${index}`}
-                className="flex-shrink-0 bg-gray-100 flex items-center justify-center"
-                style={{ width: "600px", height: "600px" }}
+                className="flex-shrink-0 flex items-center justify-center"
+                style={{
+                  width: "600px",
+                  height: "600px",
+                  backgroundColor: "#FFF3DE", 
+                }}
               >
                 <Image
                   src={slideSrc}
@@ -66,6 +74,7 @@ export default function LandingPage() {
           </div>
         </div>
 
+       
         <div className="flex justify-center mt-4">
           {slides.map((_, index) => (
             <button
@@ -78,9 +87,10 @@ export default function LandingPage() {
           ))}
         </div>
 
+        
         <button
           onClick={() => router.push("/Home")}
-          className="mt-6 bg-blue-500 text-white px-6 py-3 rounded-lg shadow-lg hover:bg-blue-600"
+          className="mt-6 bg-[#F99D3A] text-white px-6 py-3 rounded-lg shadow-lg hover:bg-[#ed9c46]"
         >
           Start
         </button>
