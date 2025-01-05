@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState, useRef } from "react";
 import Box from "@mui/material/Box";
+import Image from "next/image";
 import {
   GoogleMap,
   Marker,
@@ -322,7 +323,7 @@ export default function MainPage() {
         </div>
 
         {/* 배너 슬라이드 */}
-        <div className="w-full mt-12 relative">
+        <div className="w-full mt-28 relative">
           {/* 화살표 제거 */}
           <div
             ref={sliderRef}
@@ -330,11 +331,21 @@ export default function MainPage() {
             style={{ width: "100%", overflow: "hidden" }}
           >
             {[1, 2, 3].map((_, index) => (
-              <div
+              // <div
+              //   key={index}
+              //   className={`flex-shrink-0 w-full h-[200px] bg-gray-300 rounded shadow transition-transform duration-300 ${
+              //     currentSlide === index ? "opacity-100" : "opacity-50"
+              //   }`}
+              // />
+              <Image
                 key={index}
-                className={`flex-shrink-0 w-full h-[200px] bg-gray-300 rounded shadow transition-transform duration-300 ${
-                  currentSlide === index ? "opacity-100" : "opacity-50"
-                }`}
+                src={`/images/home_banner${index+1}.png`}
+                alt={`home banner ${index+1}`}
+                width={600}
+                height={200}
+                className={`w-full h-[200px] bg-gray-300 rounded shadow transition-transform duration-300 ${
+                      currentSlide === index ? "opacity-100" : "opacity-50"
+                    }`}
               />
             ))}
           </div>
