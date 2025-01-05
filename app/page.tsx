@@ -1,61 +1,72 @@
 "use client";
-import { useState, useRef, useEffect } from "react";
+
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 export default function LandingPage() {
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [isClient, setIsClient] = useState(false); // 클라이언트 상태 확인
-  const sliderRef = useRef<HTMLDivElement>(null);
-  const slideCount = 3;
+  const [isClient, setIsClient] = useState(false);
   const router = useRouter();
 
+  const slides = [
+    "/images/logo.png",
+    "/images/round2.png",
+    "/images/round3.png",
+  ];
+
   useEffect(() => {
-    setIsClient(true); // 클라이언트에서만 상태 변경
+    setIsClient(true);
   }, []);
 
   useEffect(() => {
     if (!isClient) return;
 
     const interval = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % slideCount);
+      setCurrentSlide((prev) => (prev + 1) % slides.length);
     }, 3000);
 
     return () => clearInterval(interval);
-  }, [isClient]);
-
-  useEffect(() => {
-    if (sliderRef.current && isClient) {
-      sliderRef.current.scrollTo({
-        left: sliderRef.current.offsetWidth * currentSlide,
-        behavior: "smooth",
-      });
-    }
-  }, [currentSlide, isClient]);
+  }, [isClient, slides.length]);
 
   const goToSlide = (index: number) => {
     if (isClient) setCurrentSlide(index);
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center">
+  
+    <div
+      className="min-h-screen flex items-center justify-center"
+      style={{ backgroundColor: "#FFF3DE" }}
+    >
       <div className="flex flex-col items-center">
+        {/* 슬라이더 컨테이너 */}
         <div
-          className="relative w-[600px] h-[600px] overflow-hidden bg-white shadow-lg"
+          className="relative w-[600px] h-[600px] overflow-hidden bg-white"
           style={{ borderRadius: "80px" }}
         >
           <div
-            ref={sliderRef}
             className="flex transition-transform duration-300"
-            style={{ width: `${slideCount * 100}%` }}
+            style={{
+              width: `${slides.length * 600}px`,
+              transform: `translateX(-${currentSlide * 600}px)`,
+            }}
           >
-            {[1, 2, 3].map((_, index) => (
+            {slides.map((slideSrc, index) => (
               <div
-                key={`slide-${index}`} // 키 확인
-                className="w-[600px] h-[600px] flex-shrink-0 bg-gray-300 flex items-center justify-center"
+                key={`slide-${index}`}
+                className="flex-shrink-0 flex items-center justify-center"
+                style={{
+                  width: "600px",
+                  height: "600px",
+                  backgroundColor: "#FFF3DE", 
+                }}
               >
-                <img
-                  src={`https://via.placeholder.com/400?text=Slide+${index + 1}`}
+                <Image
+                  src={slideSrc}
                   alt={`Slide ${index + 1}`}
+                  width={600}
+                  height={600}
                   className="rounded"
                 />
               </div>
@@ -63,8 +74,9 @@ export default function LandingPage() {
           </div>
         </div>
 
+       
         <div className="flex justify-center mt-4">
-          {[...Array(slideCount)].map((_, index) => (
+          {slides.map((_, index) => (
             <button
               key={`indicator-${index}`}
               onClick={() => goToSlide(index)}
@@ -75,9 +87,10 @@ export default function LandingPage() {
           ))}
         </div>
 
+        
         <button
           onClick={() => router.push("/Home")}
-          className="mt-6 bg-blue-500 text-white px-6 py-3 rounded-lg shadow-lg hover:bg-blue-600"
+          className="mt-6 bg-[#F99D3A] text-white px-6 py-3 rounded-lg shadow-lg hover:bg-[#ed9c46]"
         >
           Start
         </button>

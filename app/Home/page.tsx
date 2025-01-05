@@ -258,7 +258,7 @@ export default function MainPage() {
           </div>
 
           <div
-            className="flex-[6] bg-white rounded shadow overflow-hidden"
+            className="flex-[6] bg-white rounded shadow o1verflow-hidden"
             style={{ aspectRatio: "1 / 1" }}
           >
             {latitude && longitude && (
