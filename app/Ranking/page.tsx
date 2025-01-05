@@ -4,13 +4,13 @@ import { useEffect, useState } from "react";
 import { Rating, Avatar, Box, Typography } from "@mui/material";
 import styles from "./page.module.css";
 
-
 interface Restaurant {
   id: string;
   name: string;
   category: string;
   imageUrl: string;
   rating: number;
+  url: string;
 }
 
 interface AIResponse {
@@ -47,7 +47,9 @@ function removeDuplicatesKeepingLast(array: Restaurant[]): Restaurant[] {
 
 export default function RankingPage() {
   const [ranking, setRanking] = useState<Restaurant[]>([]);
-  const [query, setQuery] = useState<string>("Find the best restaurants in Vancouver");
+  const [query, setQuery] = useState<string>(
+    "Find the best restaurants in Vancouver"
+  );
   const [aiResponse, setAIResponse] = useState<AIResponse | null>(null);
   const [loading, setLoading] = useState(false);
   const [chatOpen, setChatOpen] = useState(false);
@@ -137,21 +139,35 @@ export default function RankingPage() {
                   mt: 2,
                 }}
               >
-                <Typography variant="h5" color="white" fontWeight="bold" fontSize={60}>
+                <Typography
+                  variant="h5"
+                  color="white"
+                  fontWeight="bold"
+                  fontSize={60}
+                >
                   🥇
                 </Typography>
               </Box>
-              <Typography
-                align="center"
-                sx={{
-                  maxWidth: 120,
-                  fontWeight: "bold",
-                  wordWrap: "break-word",
-                  mt: 2,
-                }}
+              <a
+                href={ranking[0]?.url}
+                target="_blank"
+                rel="noopener noreferrer"
               >
-                {ranking[0]?.name}
-              </Typography>
+                <Typography
+                  align="center"
+                  sx={{
+                    maxWidth: 120,
+                    fontWeight: "bold",
+                    wordWrap: "break-word",
+                    mt: 2,
+                    "&:hover": {
+                      color: "#FA9D39", // Hover text color
+                    },
+                  }}
+                >
+                  {ranking[0]?.name}
+                </Typography>
+              </a>
               <Typography align="center" color="textSecondary">
                 {ranking[0]?.category}
               </Typography>
@@ -188,21 +204,35 @@ export default function RankingPage() {
                   mt: 2,
                 }}
               >
-                <Typography variant="h5" color="white" fontWeight="bold" fontSize={60}>
+                <Typography
+                  variant="h5"
+                  color="white"
+                  fontWeight="bold"
+                  fontSize={60}
+                >
                   🥈
                 </Typography>
               </Box>
-              <Typography
-                align="center"
-                sx={{
-                  maxWidth: 120,
-                  fontWeight: "bold",
-                  wordWrap: "break-word",
-                  mt: 2,
-                }}
+              <a
+                href={ranking[1]?.url}
+                target="_blank"
+                rel="noopener noreferrer"
               >
-                {ranking[1]?.name}
-              </Typography>
+                <Typography
+                  align="center"
+                  sx={{
+                    maxWidth: 120,
+                    fontWeight: "bold",
+                    wordWrap: "break-word",
+                    mt: 2,
+                    "&:hover": {
+                      color: "#FA9D39", // Hover text color
+                    },
+                  }}
+                >
+                  {ranking[1]?.name}
+                </Typography>
+              </a>
               <Typography align="center" color="textSecondary">
                 {ranking[1]?.category}
               </Typography>
@@ -217,21 +247,24 @@ export default function RankingPage() {
           </div>
 
           {/* Table Section */}
-          <div className="w-full lg:basis-[60%] bg-white overflow-x-auto flex-grow-0" style={{ opacity: 0.9, padding: "16px", borderRadius: "12px" }}>
+          <div
+            className="w-full lg:basis-[60%] bg-white overflow-x-auto flex-grow-0"
+            style={{ opacity: 0.9, padding: "16px", borderRadius: "12px" }}
+          >
             <table className="table-auto w-full">
               <thead>
                 <tr className="text-left">
-                  <th className="px-2 py-2 text-sm lg:text-base">Rank</th>
-                  <th className="px-2 py-2 text-sm lg:text-base">Restaurant</th>
-                  <th className="px-2 py-2 text-sm lg:text-base">Category</th>
-                  <th className="px-2 py-2 text-sm lg:text-base">Rating</th>
+                  <th className="px-2 py-2 text-sm lg:text-base font-bold">Rank</th>
+                  <th className="px-2 py-2 text-sm lg:text-base font-bold">Restaurant</th>
+                  <th className="px-2 py-2 text-sm lg:text-base font-bold">Category</th>
+                  <th className="px-2 py-2 text-sm lg:text-base font-bold">Rating</th>
                 </tr>
               </thead>
               <tbody>
                 {ranking.slice(2, 8).map((res, idx) => (
                   <tr key={res.id} className="border-b last:border-none">
                     <td className="px-2 py-2 text-sm">{idx + 3}</td>
-                    <td className="px-2 py-2 text-sm">{res.name}</td>
+                    <td className="px-2 py-2 text-sm"><a href={res.url} target="_blank" className="hover:text-[#FA9D39]">{res.name}</a></td>
                     <td className="px-2 py-2 text-sm">{res.category}</td>
                     <td className="px-2 py-2 text-sm">
                       <Rating
@@ -250,10 +283,7 @@ export default function RankingPage() {
       )}
 
       {!chatOpen && (
-        <div
-          className={styles.chatToggle}
-          onClick={() => setChatOpen(true)}
-        >
+        <div className={styles.chatToggle} onClick={() => setChatOpen(true)}>
           💬
         </div>
       )}
@@ -269,7 +299,9 @@ export default function RankingPage() {
           {/* Content */}
           <div className={styles.chatContent}>
             {aiResponse?.error ? (
-              <p className="text-sm text-red-500">{aiResponse.error.description}</p>
+              <p className="text-sm text-red-500">
+                {aiResponse.error.description}
+              </p>
             ) : aiResponse?.business_search ? (
               <>
                 <p className="text-gray-800 font-semibold mb-4">
