@@ -1,10 +1,11 @@
 "use client";
+
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 import styles from "./page.module.css";
 import Rating from "@mui/material/Rating";
 import Stack from "@mui/material/Stack";
-// import Round1 from '../../public/images/round1.png';
 
 interface Restaurant {
   id: string;
@@ -25,6 +26,7 @@ export default function VsPage() {
   const [currentRoundNumber, setCurrentRoundNumber] = useState(1);
   const [winners, setWinners] = useState<Restaurant[]>([]);
   const [roundNumber, setRoundNumber] = useState(1);
+
 
   const [selectedWinners, setSelectedWinners] = useState<Restaurant[]>([]);
 
@@ -54,12 +56,15 @@ export default function VsPage() {
 
     if (matchIndex === totalMatches && totalMatches !== 0) {
       if (winners.length === totalMatches) {
+        // 현재 라운드 승자 목록이 모두 채워진 경우
         if (winners.length === 1) {
+          // 우승자가 1명이면 최종 우승
           const finalWinner = winners[0];
           console.log("winner:", finalWinner);
           localStorage.setItem("finalRanking", JSON.stringify(selectedWinners));
           router.push("/Ranking");
         } else {
+          // 다음 라운드로 진출
           setCurrentRound(winners);
           setWinners([]);
           setMatchIndex(0);
@@ -75,127 +80,92 @@ export default function VsPage() {
 
   if (pair.length === 2) {
     return (
-      <>
-        <div
-          className="min-h-screen flex flex-col justify-center items-center bg-[#FFF3DE]"
-          style={{ padding: "16px" }}
-        >
-          <div className="w-[750px] flex justify-end">
-            <img
-              src="/images/flag.png" // Corrected image path
-              alt="Flag Icon"
-              style={{
-                width: "50px", // Adjust size as needed
-                height: "50px", // Adjust size as needed
-              }}
-            />
-          </div>
+      <div className="min-h-screen flex flex-col justify-center items-center bg-[#FFF3DE] p-4">
+        <div className="w-[750px] flex justify-end mb-2">
+          <img
+            src="/images/flag.png"
+            alt="Flag Icon"
+            className="w-[50px] h-[50px]"
+          />
+        </div>
+
+        <div className="relative w-[970px] h-[60px] bg-[#ddd] rounded-[20px] overflow-visible mb-[20px]">
           <div
+            className="absolute top-0 left-0 h-full bg-[#FA9D39] transition-all duration-300"
             style={{
-              width: "970px",
-              height: "60px",
-              background: "#ddd",
-              borderRadius: "20px",
-              overflow: "hidden",
-              marginBottom: "20px",
-              // marginTop: "50px",
+              width: `${(currentRoundNumber * 100) / tournamentList.length - 1}%`,
             }}
+          />
+          <img
+            src={`/images/round${roundNumber}.png`}
+            alt="Middle Icon"
+            className="absolute w-[150px] h-[150px] 
+                       top-1/2 left-1/2 
+                       transform -translate-x-1/2 -translate-y-1/2 
+                       z-[9999]"
+          />
+        </div>
+
+        <div className="flex">
+          <div
+            key={pair[0].id}
+            onClick={() => handleSelectWinner(pair[0])}
+            className={`${styles.background_trapezoid} hover:scale-105 transition-transform duration-300 w-[540px] border border-gray-300 cursor-pointer p-2`}
           >
-            <div
-              style={{
-                width: `${
-                  (currentRoundNumber * 100) / tournamentList.length - 1
-                }%`,
-                height: "60px",
-                background: "#FA9D39",
-                transition: "width 0.3s ease-in-out",
-              }}
-            />
             <img
-              src={`/images/round${roundNumber}.png`} // Corrected image path
-              alt="Middle Icon"
-              style={{
-                position: "absolute",
-                top: "4%", // Center vertically
-                left: "45%", // Center horizontally
-                width: "150px", // Adjust size as needed
-                height: "150px", // Adjust size as needed
-              }}
-              className="z-[9999]"
+              src={pair[0].imageUrl}
+              alt={pair[0].name}
+              style={{ width: "100%", height: "550px", objectFit: "cover" }}
+              className={styles.trapezoid}
             />
+            <div className="ml-3 mt-5 mb-5">
+              <h3 className="text-[26px]">{pair[0].name}</h3>
+              <div className="flex items-center">
+                {pair[0].rating}
+                <Stack spacing={1} className="ml-1">
+                  <Rating
+                    name="half-rating-read"
+                    defaultValue={pair[0].rating}
+                    precision={0.1}
+                    readOnly
+                  />
+                </Stack>
+                <span className="ml-1">({pair[0].reviewCount})</span>
+              </div>
+              <p className="italic">{pair[0].category} restaurant</p>
+            </div>
           </div>
-          <div style={{ display: "flex" }}>
-            <div
-              key={pair[0].id}
-              onClick={() => handleSelectWinner(pair[0])}
-              style={{
-                width: "540px",
-                border: "1px solid #ccc",
-                cursor: "pointer",
-                padding: "8px",
-              }}
-              className={`${styles.background_trapezoid} hover:scale-103 transition-transform duration-300`}
-            >
-              <img
-                src={pair[0].imageUrl}
-                alt={pair[0].name}
-                style={{ width: "100%", height: "550px", objectFit: "cover" }}
-                className={styles.trapezoid}
-              />
-              <div className="ml-3 mt-5 mb-5">
-                <h3 className="text-[26px]">{pair[0].name}</h3>
-                <div className="flex items-center">
-                  {pair[0].rating}
-                  <Stack spacing={1} className="ml-1">
-                    <Rating
-                      name="half-rating-read"
-                      defaultValue={pair[0].rating}
-                      precision={0.1}
-                      readOnly
-                    />
-                  </Stack>
-                  <span className="ml-1">({pair[1].reviewCount})</span>
-                </div>
-                <p className="italic">{pair[0].category} restaurant</p>
+
+          <div
+            key={pair[1].id}
+            onClick={() => handleSelectWinner(pair[1])}
+            className={`${styles.background_reverse_trapezoid} hover:scale-105 transition-transform duration-300 w-[540px] border border-gray-300 cursor-pointer p-2 ml-[-110px]`}
+          >
+            <div className="text-right mr-3 mt-5 mb-5">
+              <h3 className="text-[26px]">{pair[1].name}</h3>
+              <div className="flex items-center justify-end w-full">
+                <span>{pair[1].rating}</span>
+                <Stack spacing={1} className="ml-1">
+                  <Rating
+                    name="half-rating-read"
+                    defaultValue={pair[1].rating}
+                    precision={0.1}
+                    readOnly
+                  />
+                </Stack>
+                <span className="ml-1">({pair[1].reviewCount})</span>
               </div>
+              <p className="italic">{pair[1].category} restaurant</p>
             </div>
-            <div
-              key={pair[1].id}
-              onClick={() => handleSelectWinner(pair[1])}
-              style={{
-                width: "540px",
-                border: "1px solid #ccc",
-                cursor: "pointer",
-                padding: "8px",
-              }}
-              className={`${styles.background_reverse_trapezoid} ml-[-110px] hover:scale-103 transition-transform duration-300`}
-            >
-              <div className="text-right mr-3 mt-5 mb-5">
-                <h3 className="text-[26px]">{pair[1].name}</h3>
-                <div className="flex items-center justify-end w-full">
-                  <span>{pair[1].rating}</span>
-                  <Stack spacing={1} className="ml-1">
-                    <Rating
-                      name="half-rating-read"
-                      defaultValue={pair[1].rating}
-                      precision={0.1}
-                      readOnly
-                    />
-                  </Stack>
-                  <span className="ml-1">({pair[1].reviewCount})</span>
-                </div>
-                <p className="italic">{pair[1].category} restaurant</p>
-              </div>
-              <img
-                src={pair[1].imageUrl}
-                alt={pair[1].name}
-                style={{ width: "100%", height: "550px", objectFit: "cover" }}
-                className={styles.reverseTrapezoid}
-              />
-            </div>
+            <img
+              src={pair[1].imageUrl}
+              alt={pair[1].name}
+              style={{ width: "100%", height: "550px", objectFit: "cover" }}
+              className={styles.reverseTrapezoid}
+            />
           </div>
         </div>
-      </>
+      </div>
     );
   } else {
     return <p>Loading...</p>;
