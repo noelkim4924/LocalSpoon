@@ -1,41 +1,47 @@
 "use client";
 import { useState, useRef, useEffect } from "react";
-import { useRouter } from "next/navigation"; // useRouter import
+import { useRouter } from "next/navigation";
 
 export default function LandingPage() {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [isClient, setIsClient] = useState(false); // 클라이언트 상태 확인
   const sliderRef = useRef<HTMLDivElement>(null);
-  const slideCount = 3; // 이미지 슬라이드 개수
-  const router = useRouter(); // Next.js useRouter
+  const slideCount = 3;
+  const router = useRouter();
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % slideCount); // 자동 슬라이드
-    }, 3000);
-
-    return () => clearInterval(interval); // 컴포넌트 언마운트 시 클리어
+    setIsClient(true); // 클라이언트에서만 상태 변경
   }, []);
 
   useEffect(() => {
-    if (sliderRef.current) {
+    if (!isClient) return;
+
+    const interval = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % slideCount);
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, [isClient]);
+
+  useEffect(() => {
+    if (sliderRef.current && isClient) {
       sliderRef.current.scrollTo({
         left: sliderRef.current.offsetWidth * currentSlide,
         behavior: "smooth",
       });
     }
-  }, [currentSlide]);
+  }, [currentSlide, isClient]);
 
   const goToSlide = (index: number) => {
-    setCurrentSlide(index); // 인디케이터 클릭 시 슬라이드 이동
+    if (isClient) setCurrentSlide(index);
   };
 
   return (
     <div className="min-h-screen bg-gray-100 flex items-center justify-center">
       <div className="flex flex-col items-center">
-        {/* 슬라이드 박스 */}
         <div
           className="relative w-[600px] h-[600px] overflow-hidden bg-white shadow-lg"
-          style={{ borderRadius: "80px" }} // 라운드 비율 조정 가능
+          style={{ borderRadius: "80px" }}
         >
           <div
             ref={sliderRef}
@@ -44,7 +50,7 @@ export default function LandingPage() {
           >
             {[1, 2, 3].map((_, index) => (
               <div
-                key={index}
+                key={`slide-${index}`} // 키 확인
                 className="w-[600px] h-[600px] flex-shrink-0 bg-gray-300 flex items-center justify-center"
               >
                 <img
@@ -57,11 +63,10 @@ export default function LandingPage() {
           </div>
         </div>
 
-        {/* 슬라이드 인디케이터 */}
         <div className="flex justify-center mt-4">
           {[...Array(slideCount)].map((_, index) => (
             <button
-              key={index}
+              key={`indicator-${index}`}
               onClick={() => goToSlide(index)}
               className={`w-2 h-2 rounded-full mx-1 ${
                 currentSlide === index ? "bg-gray-800" : "bg-gray-400"
@@ -70,9 +75,8 @@ export default function LandingPage() {
           ))}
         </div>
 
-        {/* Start 버튼 */}
         <button
-          onClick={() => router.push("/Home")} // /Home으로 이동
+          onClick={() => router.push("/Home")}
           className="mt-6 bg-blue-500 text-white px-6 py-3 rounded-lg shadow-lg hover:bg-blue-600"
         >
           Start

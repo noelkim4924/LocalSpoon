@@ -185,7 +185,7 @@ export default function MainPage() {
   if (!isLoaded) return <p>Loading Google Maps...</p>;
 
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col">
+    <div className="min-h-screen bg-gray-100 flex flex-col px-4 pb-10">
       <div className="flex flex-col items-center justify-center w-full max-w-6xl mx-auto mt-16">
         <div className="flex w-full gap-12">
           <div className="flex-[4] p-8">
@@ -253,23 +253,23 @@ export default function MainPage() {
           </div>
         </div>
 
-       {/* 배너 슬라이드 */}
-       <div className="w-full mt-12 relative">
-  {/* 화살표 제거 */}
-  <div
-    ref={sliderRef}
-    className="flex gap-4"
-    style={{ width: "100%", overflow: "hidden" }}
-  >
-    {[1, 2, 3].map((_, index) => (
-      <div
-        key={index}
-        className={`flex-shrink-0 w-full h-[200px] bg-gray-300 rounded shadow transition-transform duration-300 ${
-          currentSlide === index ? "opacity-100" : "opacity-50"
-        }`}
-      />
-    ))}
-  </div>
+        {/* 배너 슬라이드 */}
+        <div className="w-full mt-12 relative">
+        {/* 화살표 제거 */}
+        <div
+          ref={sliderRef}
+          className="flex gap-4"
+          style={{ width: "100%", overflow: "hidden" }}
+        >
+          {[1, 2, 3].map((_, index) => (
+            <div
+              key={index}
+              className={`flex-shrink-0 w-full h-[200px] bg-gray-300 rounded shadow transition-transform duration-300 ${
+                currentSlide === index ? "opacity-100" : "opacity-50"
+              }`}
+            />
+          ))}
+        </div>
           {/* 슬라이드 인디케이터 */}
           <div className="flex justify-center mt-4">
             {[...Array(slideCount)].map((_, index) => (
