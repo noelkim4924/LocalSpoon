@@ -32,7 +32,7 @@ export async function GET(request: Request) {
     });
 
     return NextResponse.json(response.data);
-  } catch (error: any) {
+  } catch (error: unknown) {
     if (axios.isAxiosError(error)) {
       console.error(
         "Error fetching Yelp business data:",
@@ -83,7 +83,7 @@ export async function POST(request: Request) {
     );
 
     return NextResponse.json(response.data);
-  } catch (error: any) {
+  } catch (error: unknown) {
     if (axios.isAxiosError(error)) {
       console.error(
         "Error fetching Yelp AI chat data:",

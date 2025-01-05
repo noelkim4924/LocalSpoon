@@ -11,6 +11,11 @@ import {
 import Slider from "@mui/material/Slider";
 import BracketSelectModal from "@/components/Modal/Modal";
 
+declare global {
+  interface Window {
+    google: typeof google;
+  }
+}
 interface Restaurant {
   id: string;
   name: string;
@@ -25,6 +30,34 @@ interface Restaurant {
   longitude: number;
 }
 
+interface BusinessCategory {
+  title: string;
+}
+
+interface BusinessLocation {
+  address1: string;
+  city: string;
+  state: string;
+  zip_code: string;
+}
+
+interface BusinessCoordinates {
+  latitude: number;
+  longitude: number;
+}
+
+interface Business {
+  id: string;
+  name: string;
+  rating: number;
+  review_count: number;
+  categories: BusinessCategory[];
+  image_url: string;
+  location: BusinessLocation;
+  coordinates: BusinessCoordinates;
+  url: string;
+}
+
 export default function MainPage() {
   const [latitude, setLatitude] = useState<number | null>(null);
   const [longitude, setLongitude] = useState<number | null>(null);
@@ -35,7 +68,7 @@ export default function MainPage() {
   const [searchLocation, setSearchLocation] = useState<string>("");
   const [autoSlide, setAutoSlide] = useState(true);
   const [currentSlide, setCurrentSlide] = useState(0); 
-  const [autocomplete, setAutocomplete] = useState<any>(null);
+  const [autocomplete, setAutocomplete] = useState<google.maps.places.Autocomplete | null>(null);
 
   const sliderRef = useRef<HTMLDivElement>(null);
   const slideCount = 3; 
@@ -78,16 +111,6 @@ export default function MainPage() {
       });
     }
   }, [currentSlide]);
-
-  const scrollLeft = () => {
-    setAutoSlide(false); 
-    setCurrentSlide((prev) => (prev - 1 + slideCount) % slideCount);
-  };
-
-  const scrollRight = () => {
-    setAutoSlide(false); 
-    setCurrentSlide((prev) => (prev + 1) % slideCount);
-  };
 
   const goToSlide = (index: number) => {
     setAutoSlide(false);
@@ -140,7 +163,7 @@ export default function MainPage() {
 
       const data = await response.json();
       const newRestaurants = data.businesses
-        .map((business: any) => {
+        .map((business: Business) => {
           const distance = calculateDistance(
             latitude!,
             longitude!,
@@ -162,7 +185,7 @@ export default function MainPage() {
             longitude: business.coordinates.longitude,
           };
         })
-        .filter((restaurant: any) => restaurant.distance <= radius && restaurant.imageUrl);
+        .filter((restaurant: Restaurant) => restaurant.distance <= radius && restaurant.imageUrl);
 
       setRestaurants(newRestaurants);
       localStorage.setItem("restaurants", JSON.stringify(newRestaurants));
@@ -175,7 +198,7 @@ export default function MainPage() {
     }
   };
 
-  const onLoad = (autocompleteInstance: any) => {
+  const onLoad = (autocompleteInstance: google.maps.places.Autocomplete) => {
     setAutocomplete(autocompleteInstance);
   };
 
@@ -247,7 +270,7 @@ export default function MainPage() {
                   },
                 }}
               />
-              <p className="text-lg mt-1 ml-1">Radius in {radius / 1000} km</p>
+              <p className="text-lg mt-1 ml-1">Radius in {radius ? radius / 1000 : 0} km</p>
             </Box>
             <button
               onClick={fetchRestaurants}
@@ -269,7 +292,7 @@ export default function MainPage() {
               >
                 <Circle
                   center={{ lat: latitude, lng: longitude }}
-                  radius={radius}
+                  radius={radius ?? 0}
                   options={{
                     strokeColor: "#008000",
                     strokeOpacity: 0.8,
