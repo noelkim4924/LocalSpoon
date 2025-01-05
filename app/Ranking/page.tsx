@@ -295,7 +295,7 @@ export default function RankingPage() {
                 </div>
               </>
             ) : (
-              <p className="text-sm text-gray-500">Ask me anything!</p>
+              <p className="text-sm text-gray-500">Ask me Anything!</p>
             )}
           </div>
 
