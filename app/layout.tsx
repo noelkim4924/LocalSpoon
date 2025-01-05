@@ -16,29 +16,26 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-
-
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-
   const pathname = usePathname();
 
-  const isRoot = pathname === "/";
+  const hideNavFooterPaths = ["/", "/Loading1", "/Loading2"];
+  const shouldHideNavFooter = hideNavFooterPaths.includes(pathname);
 
   return (
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {!isRoot && <Nav />}
+        {!shouldHideNavFooter && <Nav />}
 
         {children}
 
-     
-        {!isRoot && <FooterWrapper />}
+        {!shouldHideNavFooter && <FooterWrapper />}
       </body>
     </html>
   );
