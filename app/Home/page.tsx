@@ -1,7 +1,13 @@
 "use client";
 import { useEffect, useState, useRef } from "react";
 import Box from "@mui/material/Box";
-import { GoogleMap, Marker, Circle, useJsApiLoader, Autocomplete } from "@react-google-maps/api";
+import {
+  GoogleMap,
+  Marker,
+  Circle,
+  useJsApiLoader,
+  Autocomplete,
+} from "@react-google-maps/api";
 import Slider from "@mui/material/Slider";
 import BracketSelectModal from "@/components/Modal/Modal";
 
@@ -47,7 +53,9 @@ export default function MainPage() {
       },
       (error) => {
         console.error("Error fetching location:", error);
-        alert("Unable to fetch your current location. Please use the search bar.");
+        alert(
+          "Unable to fetch your current location. Please use the search bar."
+        );
       }
     );
   }, []);
@@ -185,12 +193,15 @@ export default function MainPage() {
   if (!isLoaded) return <p>Loading Google Maps...</p>;
 
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col px-4 pb-10">
+    <div className="min-h-screen bg-[#FFF3DE] flex flex-col px-4 pb-10">
       <div className="flex flex-col items-center justify-center w-full max-w-6xl mx-auto mt-16">
-        <div className="flex w-full gap-12">
-          <div className="flex-[4] p-8">
-            <h1 className="text-4xl font-extrabold mt-10 mb-6 leading-tight">
-              Support Local, <br /> Savour the Flavour
+        <div className="flex w-full gap-3">
+          <div className="flex-[4] p-8 bg-[#FFFFFF80] h-[90%] mt-auto rounded-xl">
+            <h1 className="text-[42px] font-semibold mt-6 mb-8 leading-tight">
+              Support{" "}
+              <span className="font-semibold text-[#A0DAD7]">Local</span>,{" "}
+              <br /> Savor the{" "}
+              <span className="font-semibold text-[#F99D3A]">Flavour</span>
             </h1>
             <Autocomplete onLoad={onLoad} onPlaceChanged={onPlaceChanged}>
               <input
@@ -198,11 +209,10 @@ export default function MainPage() {
                 placeholder="Search"
                 value={searchLocation}
                 onChange={(e) => setSearchLocation(e.target.value)}
-                className="border p-3 rounded w-full mb-6 text-lg"
+                className="p-3 rounded-3xl w-full mb-8 mt-3 text-lg"
               />
             </Autocomplete>
             <Box sx={{ width: "100%" }} className="mb-6">
-              <p className="text-lg">Radius in {radius / 1000} km</p>
               <Slider
                 aria-label="Distance"
                 valueLabelDisplay="auto"
@@ -211,11 +221,37 @@ export default function MainPage() {
                 min={1}
                 max={10}
                 onChange={(e, value) => setRadius((value as number) * 1000)}
+                sx={{
+                  color: '#F99D3A', // Customize the slider color
+                  '& .MuiSlider-thumb': {
+                    backgroundColor: '#A0DAD7', // Thumb color
+                    width: 40, // Thumb size
+                    height: 40,
+                    border: '7px solid white',
+                  },
+                  '& .MuiSlider-rail': {
+                    backgroundColor: '#A0DAD7', // Rail color
+                    height: 15,
+                  },
+                  '& .MuiSlider-track': {
+                    backgroundColor: '#A0DAD7', // Track color
+                    height: 15,
+                  },
+                  '& .MuiSlider-mark': {
+                    backgroundColor: '#A0DAD7', // Mark color
+                    // height: 8,
+                    // width: 8,
+                  },
+                  '& .MuiSlider-markActive': {
+                    backgroundColor: '#F99D3A', // Active mark color
+                  },
+                }}
               />
+              <p className="text-lg mt-1 ml-1">Radius in {radius / 1000} km</p>
             </Box>
             <button
               onClick={fetchRestaurants}
-              className="bg-blue-600 text-white py-3 px-6 rounded-lg text-lg font-medium"
+              className="bg-[#F99D3A] text-white py-3 px-6 rounded-3xl text-lg mt-[100px] font-medium"
             >
               Find Restaurants
             </button>
@@ -246,7 +282,10 @@ export default function MainPage() {
                 {restaurants.map((restaurant) => (
                   <Marker
                     key={restaurant.id}
-                    position={{ lat: restaurant.latitude, lng: restaurant.longitude }}
+                    position={{
+                      lat: restaurant.latitude,
+                      lng: restaurant.longitude,
+                    }}
                   />
                 ))}
               </GoogleMap>
@@ -256,21 +295,21 @@ export default function MainPage() {
 
         {/* 배너 슬라이드 */}
         <div className="w-full mt-12 relative">
-        {/* 화살표 제거 */}
-        <div
-          ref={sliderRef}
-          className="flex gap-4"
-          style={{ width: "100%", overflow: "hidden" }}
-        >
-          {[1, 2, 3].map((_, index) => (
-            <div
-              key={index}
-              className={`flex-shrink-0 w-full h-[200px] bg-gray-300 rounded shadow transition-transform duration-300 ${
-                currentSlide === index ? "opacity-100" : "opacity-50"
-              }`}
-            />
-          ))}
-        </div>
+          {/* 화살표 제거 */}
+          <div
+            ref={sliderRef}
+            className="flex gap-4"
+            style={{ width: "100%", overflow: "hidden" }}
+          >
+            {[1, 2, 3].map((_, index) => (
+              <div
+                key={index}
+                className={`flex-shrink-0 w-full h-[200px] bg-gray-300 rounded shadow transition-transform duration-300 ${
+                  currentSlide === index ? "opacity-100" : "opacity-50"
+                }`}
+              />
+            ))}
+          </div>
           {/* 슬라이드 인디케이터 */}
           <div className="flex justify-center mt-4">
             {[...Array(slideCount)].map((_, index) => (
