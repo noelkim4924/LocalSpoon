@@ -20,6 +20,7 @@ export default function StartingLottie() {
   return (
     <div
       style={{
+        backgroundColor: "#FFF3DE", 
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
