@@ -221,7 +221,7 @@ export default function RankingPage() {
             <table className="table-auto w-full">
               <thead>
                 <tr className="text-left">
-                  <th className="px-2 py-2 text-sm lg:text-base">Rank</th>
+                  <th className="px-2 py-2 text-sm lg:text-base">Rdank</th>
                   <th className="px-2 py-2 text-sm lg:text-base">Restaurant</th>
                   <th className="px-2 py-2 text-sm lg:text-base">Category</th>
                   <th className="px-2 py-2 text-sm lg:text-base">Rating</th>
