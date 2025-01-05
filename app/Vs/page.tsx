@@ -19,14 +19,12 @@ interface Restaurant {
 
 export default function VsPage() {
   const router = useRouter();
-
   const [tournamentList, setTournamentList] = useState<Restaurant[]>([]);
   const [currentRound, setCurrentRound] = useState<Restaurant[]>([]);
   const [matchIndex, setMatchIndex] = useState(0);
   const [currentRoundNumber, setCurrentRoundNumber] = useState(1);
   const [winners, setWinners] = useState<Restaurant[]>([]);
   const [roundNumber, setRoundNumber] = useState(1);
-
   const [selectedWinners, setSelectedWinners] = useState<Restaurant[]>([]);
 
   useEffect(() => {
@@ -36,7 +34,6 @@ export default function VsPage() {
       return;
     }
     const parsed: Restaurant[] = JSON.parse(data);
-
     setTournamentList(parsed);
     setCurrentRound(parsed);
   }, []);
@@ -52,12 +49,11 @@ export default function VsPage() {
 
   useEffect(() => {
     const totalMatches = currentRound.length / 2;
-
     if (matchIndex === totalMatches && totalMatches !== 0) {
       if (winners.length === totalMatches) {
         if (winners.length === 1) {
           localStorage.setItem("finalRanking", JSON.stringify(selectedWinners));
-          router.push("/Ranking");
+          router.push("/Loading2");
         } else {
           setCurrentRound(winners);
           setWinners([]);
@@ -76,23 +72,15 @@ export default function VsPage() {
     return (
       <div className="min-h-screen flex flex-col justify-center items-center bg-[#FFF3DE] p-4">
         <div className={`${styles.flag_bar} w-[50vw] flex justify-end`}>
-          <Image
-            src="/images/flag.png"
-            alt="Flag Icon"
-            width={50}
-            height={50}
-          />
+          <Image src="/images/flag.png" alt="Flag Icon" width={50} height={50} />
         </div>
-
         <div
           className={`${styles.progress_bar} relative w-[56vw] h-[6.5vh] bg-[#ddd] rounded-[20px] overflow-visible mb-[40px]`}
         >
           <div
             className="absolute top-0 left-0 h-full bg-[#FA9D39] transition-all duration-300 rounded-[20px]"
             style={{
-              width: `${
-                (currentRoundNumber * 100) / tournamentList.length - 1
-              }%`,
+              width: `${(currentRoundNumber * 100) / tournamentList.length - 1}%`,
             }}
           />
           <Image
@@ -106,7 +94,6 @@ export default function VsPage() {
                        z-[9999]`}
           />
         </div>
-
         <div className="hidden md:flex flex-row justify-center gap-4">
           <div
             key={pair[0].id}
@@ -138,7 +125,6 @@ export default function VsPage() {
               <p className="italic">{pair[0].category} restaurant</p>
             </div>
           </div>
-
           <div
             key={pair[1].id}
             onClick={() => handleSelectWinner(pair[1])}
@@ -170,8 +156,6 @@ export default function VsPage() {
             />
           </div>
         </div>
-
-        {/* For screens smaller than 768px */}
         <div className="flex flex-col md:hidden justify-center items-center gap-4">
           <div
             key={pair[0].id}
@@ -207,7 +191,6 @@ export default function VsPage() {
               className={`${styles.trapezoid} h-[30vh]`}
             />
           </div>
-
           <div
             key={pair[1].id}
             onClick={() => handleSelectWinner(pair[1])}
@@ -216,7 +199,7 @@ export default function VsPage() {
             <Image
               src={pair[1].imageUrl}
               alt={pair[1].name}
-              width={300} 
+              width={300}
               height={300}
               style={{ width: "100%", objectFit: "cover" }}
               className={`${styles.reverseTrapezoid} h-[30vh]`}
