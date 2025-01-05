@@ -1,0 +1,223 @@
+/* Container for the entire page */
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-family: Arial, sans-serif;
+  background-color: #f9f9f9;
+  padding: 2rem;
+  min-height: 100vh;
+  min-width: 100vw;
+}
+
+/* Heading for the page */
+.heading {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #1f2937;
+  /* Dark gray text */
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+/* Ranking List */
+.rankingList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  max-width: 600px;
+}
+
+.rankingList li {
+  padding: 1rem;
+  margin-bottom: 0.5rem;
+  background-color: #ffffff;
+  border: 1px solid #e5e7eb;
+  /* Light gray border */
+  border-radius: 0.5rem;
+  font-size: 1.2rem;
+  color: #374151;
+  /* Dark gray text */
+  display: flex;
+  justify-content: space-between;
+}
+
+.rankingList li:hover {
+  background-color: #f3f4f6;
+  /* Slight hover effect */
+}
+
+.chatToggle {
+  background-color: #fcca5d;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 4rem;
+  width: 4rem;
+  border-radius: 50%;
+  cursor: pointer;
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 10;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.chatWindow {
+  height: 40rem;
+  width: 20rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 1rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  background-color: white;
+  overflow: hidden;
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.chatHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #fcca5d;
+  /* Tailwind blue-500 */
+  color: white;
+  padding: 1rem;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+/* Chat Content */
+.chatContent {
+  padding: 1rem;
+  overflow-y: auto;
+  flex-grow: 1;
+}
+
+.businessCard {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  background-color: #f9fafb;
+  /* Light gray background */
+  margin-bottom: 1rem;
+}
+
+.businessCard img {
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.businessCard h3 {
+  font-size: 1rem;
+  font-weight: bold;
+  margin: 0;
+}
+
+.businessCard p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #6b7280;
+}
+
+.chatInput {
+  padding: 1rem;
+  border-top: 1px solid #e5e7eb;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.chatInput input {
+  flex: 1;
+  padding: 0.5rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+}
+
+.chatInput button {
+  padding: 0.5rem 1rem;
+  background-color: #fcca5d;
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.chatInput button:hover {
+  background-color: #fcca5d;
+}
+
+.podium {
+  display: flex;
+  align-items: flex-end;
+}
+
+.podium div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 10px;
+}
+
+.podium .rank-1 {
+  background-color: gold;
+  width: 80px;
+  height: 160px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  color: white;
+}
+
+.podium .rank-2 {
+  background-color: silver;
+  width: 80px;
+  height: 120px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  color: white;
+}
+
+.medal {
+  width: 2.5rem;
+  height: 2.5rem;
+  object-fit: contain;
+}
+
+.text-wrapper {
+  text-align: center;
+  margin-top: 0.5rem;
+  line-height: 1.5;
+  word-wrap: break-word;
+}
