@@ -221,7 +221,7 @@
   line-height: 1.5;
   word-wrap: break-word;
 }
-1/* Container for the entire page */
+/* Container for the entire page */
 .container {
   display: flex;
   flex-direction: column;

@@ -22,7 +22,7 @@ interface Restaurant {
 export default function MainPage() {
   const [latitude, setLatitude] = useState<number | null>(null);
   const [longitude, setLongitude] = useState<number | null>(null);
-  const [radius, setRadius] = useState<number>(5000); // Default radius: 5km
+  const [radius, setRadius] = useState<number | null>(null);
   const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [confirmModalOpen, setConfirmModalOpen] = useState<boolean>(false);
@@ -202,13 +202,14 @@ export default function MainPage() {
               />
             </Autocomplete>
             <Box sx={{ width: "100%" }} className="mb-6">
-              <p className="text-lg">Radius in {radius ? `${radius / 1000} km` : "5 km"}</p>
+              <p className="text-lg">Radius in {radius / 1000} km</p>
               <Slider
-                value={radius ? radius / 1000 : 5}
+                aria-label="Distance"
+                valueLabelDisplay="auto"
+                step={1}
+                marks
                 min={1}
                 max={10}
-                step={1}
-                valueLabelDisplay="auto"
                 onChange={(e, value) => setRadius((value as number) * 1000)}
               />
             </Box>
@@ -216,7 +217,7 @@ export default function MainPage() {
               onClick={fetchRestaurants}
               className="bg-blue-600 text-white py-3 px-6 rounded-lg text-lg font-medium"
             >
-              Done
+              Find Restaurants
             </button>
           </div>
 
