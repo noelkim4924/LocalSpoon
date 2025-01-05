@@ -28,7 +28,6 @@ export default function LandingPage() {
 
     return () => clearInterval(interval);
   }, [isClient, slides.length]);
-
   const goToSlide = (index: number) => {
     if (isClient) {
       setCurrentSlide(index);
@@ -85,8 +84,9 @@ export default function LandingPage() {
             ></button>
           ))}
         </div>
+
         <button
-          onClick={() => router.push("/Home")}
+          onClick={() => router.push("/Loading1")} 
           className="mt-6 bg-[#F99D3A] text-white px-6 py-3 rounded-lg shadow-lg hover:bg-[#ed9c46]"
         >
           Start

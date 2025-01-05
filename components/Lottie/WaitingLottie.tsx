@@ -20,6 +20,7 @@ export default function WaitingLottie() {
   return (
     <div
       style={{
+        backgroundColor: "#FFF3DE",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
@@ -63,12 +64,6 @@ export default function WaitingLottie() {
       >
         Waiting for Result {animatedDots}
       </p>
-
-      <img
-        src="/images/logo.png"
-        alt="Local Spoon Logo"
-        style={{ marginTop: 12, width: 200, height: "auto" }}
-      />
     </div>
   );
 }

@@ -1,9 +1,8 @@
 "use client";
+import Image from "next/image";
 import { useEffect, useState } from "react";
-import { Rating, Avatar, Box, Typography } from "@mui/material";
+import { Rating, Avatar, Typography, Box, colors } from "@mui/material";
 import styles from "./page.module.css";
-
-
 interface Restaurant {
   id: string;
   name: string;
@@ -107,141 +106,145 @@ export default function RankingPage() {
   return (
     <div className={styles.container}>
       {ranking.length === 0 ? (
-        <p>No data.</p>
+        <Typography>No data.</Typography>
       ) : (
-        <div className="col-span-4 flex items-end justify-content: center; ;
-  align-items: center;">
-          <div className="flex justify-between items-start w-full px-[20%] ">
-            <div className="flex items-end w-full ">
-              <div className="flex flex-col items-center w-[55%]">
-                <div className="flex justify-between items-end w-full mr-[140%]">
-                  {/* Rank 1 */}
-                  <div className="flex flex-col items-center ">
-                    <Avatar
-                      src={ranking[0]?.imageUrl || ""}
-                      alt={ranking[0]?.name || "N/A"}
-                      sx={{
-                        width: { xs: 80, sm: 120, lg: 100 },
-                        height: { xs: 80, sm: 120, lg: 100 },
-                        border: "4px solid gold",
-                      }}
-                    />
-                    <Box
-                      sx={{
-                        width: { xs: 70, sm: 100, lg: 110 },
-                        height: { xs: 100, sm: 140, lg: 250 },
-                        backgroundColor: "gold",
-                        borderRadius: "8px 8px 0 0",
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        mt: 2,
-                      }}
-                    >
-                      <Typography variant="h5" color="white" fontWeight="bold">
-                        🥇
-                      </Typography>
-                    </Box>
-                    <Typography
-                      align="center"
-                      sx={{
-                        maxWidth: 120,
-                        fontWeight: "bold",
-                        wordWrap: "break-word",
-                        mt: 2,
-                      }}
-                    >
-                      {ranking[0]?.name}
-                    </Typography>
-                    <Typography align="center" color="textSecondary">
-                      {ranking[0]?.category}
-                    </Typography>
-                    <Rating
-                      value={ranking[0]?.rating || 0}
-                      precision={0.5}
-                      readOnly
-                      size="small"
-                      sx={{ mt: 1 }}
-                    />
-                  </div>
-
-                  {/* Rank 2 */}
-                  <div className="flex flex-col items-center">
-                    <Avatar
-                      src={ranking[1]?.imageUrl || ""}
-                      alt={ranking[1]?.name || "N/A"}
-                      sx={{
-                        width: { xs: 70, sm: 110, lg: 100 },
-                        height: { xs: 70, sm: 110, lg: 100 },
-                        border: "4px solid silver",
-                      }}
-                    />
-                    <Box
-                      sx={{
-                        width: { xs: 60, sm: 90, lg: 100 },
-                        height: { xs: 80, sm: 120, lg: 200 },
-                        backgroundColor: "silver",
-                        borderRadius: "8px 8px 0 0",
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        mt: 2,
-                      }}
-                    >
-                      <Typography variant="h5" color="white" fontWeight="bold">
-                        🥈
-                      </Typography>
-                    </Box>
-                    <Typography
-                      align="center"
-                      sx={{
-                        maxWidth: 120,
-                        fontWeight: "bold",
-                        wordWrap: "break-word",
-                        mt: 2,
-                      }}
-                    >
-                      {ranking[1]?.name}
-                    </Typography>
-                    <Typography align="center" color="textSecondary">
-                      {ranking[1]?.category}
-                    </Typography>
-                    <Rating
-                      value={ranking[1]?.rating || 0}
-                      precision={0.5}
-                      readOnly
-                      size="small"
-                      sx={{ mt: 1 }}
-                    />
-                  </div>
-                </div>
-              </div>
-
-              <div className="w-[45%] flex items-center justify-start">
-                <table className="table-auto w-full border-collapse border border-gray-200">
-                  <thead>
-                    <tr className="bg-gray-100 text-left">
-                      <th className="px-4 py-2">Rank</th>
-                      <th className="px-4 py-2">Restaurant</th>
-                      <th className="px-4 py-2">Category</th>
-                      <th className="px-4 py-2">Rating</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {ranking.slice(2, 8).map((res, idx) => (
-                      <tr key={res.id} className="hover:bg-gray-50">
-                        <td className="px-4 py-2">{idx + 3}</td>
-                        <td className="px-4 py-2">{res.name}</td>
-                        <td className="px-4 py-2">{res.category}</td>
-                        <td className="px-4 py-2">
-                          <Rating value={res.rating || 0} precision={0.5} readOnly size="small" />
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
+        <div className="flex justify-between items-start w-full px-10 gap-10 relative mt-36">
+          {/* Podium Section */}
+          <div className="flex flex-col items-center w-[55%] relative">
+            {/* Rank 1 */}
+            <div
+              className="flex flex-col items-center absolute z-10"
+              style={{
+                top: "-23%",
+                left: "28%",
+              }}
+            >
+              <Avatar
+                src={ranking[0]?.imageUrl || ""}
+                alt={ranking[0]?.name || "N/A"}
+                sx={{
+                  width: 120,
+                  height: 120,
+                  border: "4px solid #D9D9D9",
+                }}
+              />
+              <Box
+                display="flex"
+                flexDirection="column"
+                alignItems="center"
+                justifyContent="center"
+                sx={{
+                  width: "150px",
+                  height: "60px",
+                  backgroundColor: "#857777",
+                  border: "1px solid #ddd",
+                  borderRadius: "8px",
+                  textAlign: "center",
+                  overflow: "hidden",
+                  wordWrap: "break-word",
+                  whiteSpace: "normal"
+                }}
+              >
+                <Typography align="center" sx={{ fontWeight: "bold", fontSize: "12px", color: "white", wordWrap: "break-word", overflowWrap: "break-word" }}>
+                  {ranking[0]?.name}
+                </Typography>
+                <Typography align="center" color="textSecondary" sx={{ fontSize: "10px", color: "white", wordWrap: "break-word", overflowWrap: "break-word", whiteSpace: "normal" }}>
+                  {ranking[0]?.category}
+                </Typography>
+                <Rating
+                  value={ranking[0]?.rating || 0}
+                  precision={0.5}
+                  readOnly
+                  size="small"
+                />
+              </Box>
             </div>
+
+            {/* Rank 2 */}
+            <div
+              className="flex flex-col items-center absolute z-10"
+              style={{
+                top: "5%",
+                left: "58%",
+              }}
+            >
+              <Avatar
+                src={ranking[1]?.imageUrl || ""}
+                alt={ranking[1]?.name || "N/A"}
+                sx={{
+                  width: 120,
+                  height: 120,
+                  border: "4px solid #D9D9D9",
+                }}
+              />
+              <Box
+                display="flex"
+                flexDirection="column"
+                alignItems="center"
+                justifyContent="center"
+                sx={{
+                  width: "150px",
+                  height: "60px",
+                  backgroundColor: "#857777",
+                  border: "1px solid #ddd",
+                  borderRadius: "8px"
+                }}
+              >
+                <Typography align="center" sx={{ fontWeight: "bold", fontSize: "12px", color: "white" }}>
+                  {ranking[1]?.name}
+                </Typography>
+                <Typography align="center" color="textSecondary" sx={{ fontSize: "10px", color: "white" }}>
+                  {ranking[1]?.category}
+                </Typography>
+                <Rating
+                  value={ranking[1]?.rating || 0}
+                  precision={0.5}
+                  readOnly
+                  size="small"
+                />
+              </Box>
+            </div>
+            {/* Podium Image */}
+            <Image
+              src="/images/rank.png"
+              alt="Podium"
+              layout="intrinsic"
+              width={500}
+              height={300}
+              className="relative bottom-50 left-1/3 transform -translate-x-1/2 z-0"
+              priority
+            />
+          </div>
+
+          {/* Table Section */}
+          <div className="w-[45%]">
+            <table className="table-auto w-full border-collapse border border-gray-200">
+              <thead>
+                <tr className="bg-gray-100 text-left">
+                  <th className="px-4 py-2">Rank</th>
+                  <th className="px-4 py-2">Restaurant</th>
+                  <th className="px-4 py-2">Category</th>
+                  <th className="px-4 py-2">Rating</th>
+                </tr>
+              </thead>
+              <tbody>
+                {ranking.slice(2, 8).map((res, idx) => (
+                  <tr key={res.id} className="hover:bg-gray-50">
+                    <td className="px-4 py-2">{idx + 3}</td>
+                    <td className="px-4 py-2">{res.name}</td>
+                    <td className="px-4 py-2">{res.category}</td>
+                    <td className="px-4 py-2">
+                      <Rating
+                        value={res.rating || 0}
+                        precision={0.5}
+                        readOnly
+                        size="small"
+                      />
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         </div>
       )}
@@ -275,7 +278,7 @@ export default function RankingPage() {
                 <div>
                   {aiResponse.business_search.businesses.map((business) => (
                     <div key={business.id} className={styles.businessCard}>
-                      <img
+                      <Image
                         src={business.photos?.[0]?.original_url || ""}
                         alt={business.name}
                       />
