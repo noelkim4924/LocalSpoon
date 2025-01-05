@@ -30,17 +30,17 @@ export default function LandingPage() {
   }, [isClient, slides.length]);
 
   const goToSlide = (index: number) => {
-    if (isClient) setCurrentSlide(index);
+    if (isClient) {
+      setCurrentSlide(index);
+    }
   };
 
   return (
-  
     <div
       className="min-h-screen flex items-center justify-center"
       style={{ backgroundColor: "#FFF3DE" }}
     >
       <div className="flex flex-col items-center">
-        {/* 슬라이더 컨테이너 */}
         <div
           className="relative w-[600px] h-[600px] overflow-hidden bg-white"
           style={{ borderRadius: "80px" }}
@@ -59,7 +59,7 @@ export default function LandingPage() {
                 style={{
                   width: "600px",
                   height: "600px",
-                  backgroundColor: "#FFF3DE", 
+                  backgroundColor: "#FFF3DE",
                 }}
               >
                 <Image
@@ -74,7 +74,6 @@ export default function LandingPage() {
           </div>
         </div>
 
-       
         <div className="flex justify-center mt-4">
           {slides.map((_, index) => (
             <button
@@ -86,8 +85,6 @@ export default function LandingPage() {
             ></button>
           ))}
         </div>
-
-        
         <button
           onClick={() => router.push("/Home")}
           className="mt-6 bg-[#F99D3A] text-white px-6 py-3 rounded-lg shadow-lg hover:bg-[#ed9c46]"
