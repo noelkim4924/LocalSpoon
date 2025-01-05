@@ -1,22 +1,15 @@
-// app/Loading2/page.tsx
 "use client";
-export const dynamic = "force-dynamic"; // Next.js 설정(정적 생성 비활성화)
 
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
-import nextDynamic from "next/dynamic"; // 이름 변경 (기존 'dynamic' -> 'nextDynamic')
-
-// 동적 임포트 + ssr: false 옵션
-const WaitingLottie = nextDynamic(() => import("@/components/Lottie/WaitingLottie"), {
-  ssr: false,
-});
+import WaitingLottie from "@/components/Lottie/WaitingLottie";
 
 export default function AnotherLoadingPage() {
   const router = useRouter();
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      router.push("/Ranking");
+      router.push("/ranking"); // 2초 뒤 /Ranking 페이지로 이동
     }, 2000);
 
     return () => clearTimeout(timer);
