@@ -109,14 +109,14 @@ export default function RankingPage() {
       {ranking.length === 0 ? (
         <p>No data.</p>
       ) : (
-        <div className="col-span-4 flex items-end justify-content: center;
+        <div className="col-span-4 flex items-end justify-content: center; ;
   align-items: center;">
-          <div className="flex justify-between items-start w-full px-10">
-            <div className="flex items-end w-full">
+          <div className="flex justify-between items-start w-full px-[20%] ">
+            <div className="flex items-end w-full ">
               <div className="flex flex-col items-center w-[55%]">
-                <div className="flex justify-between items-end w-full">
+                <div className="flex justify-between items-end w-full mr-[140%]">
                   {/* Rank 1 */}
-                  <div className="flex flex-col items-center">
+                  <div className="flex flex-col items-center ">
                     <Avatar
                       src={ranking[0]?.imageUrl || ""}
                       alt={ranking[0]?.name || "N/A"}
