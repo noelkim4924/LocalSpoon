@@ -151,83 +151,80 @@ export default function MainPage() {
   if (!isLoaded) return <p>Loading Google Maps...</p>;
 
   return (
-<div className="grid grid-rows-[auto,1fr] grid-cols-[1fr,2fr] gap-4 h-screen">
-  {/* 좌측 상단: 검색 필드 및 슬라이더 */}
-  <div className="col-span-1 row-span-1 p-4">
-    <h1 className="text-2xl font-bold mb-4">Find Restaurants Near You</h1>
-    <Autocomplete onLoad={onLoad} onPlaceChanged={onPlaceChanged}>
-      <input
-        type="text"
-        placeholder="Enter a location"
-        value={searchLocation}
-        onChange={(e) => setSearchLocation(e.target.value)}
-        className="border p-2 rounded w-full"
-      />
-    </Autocomplete>
-    <Box sx={{ width: 300 }} className="mt-4">
-      <p>Radius (in km): {radius ? radius / 1000 : "Not set"}</p>
-      <Slider
-        value={radius ? radius / 1000 : 3}
-        min={1}
-        max={10}
-        step={1}
-        valueLabelDisplay="auto"
-        onChange={(e, value) => setRadius((value as number) * 1000)}
-      />
-    </Box>
-    <button
-      onClick={fetchRestaurants}
-      className="bg-blue-500 text-white p-3 rounded mt-4"
-    >
-      Find Restaurants
-    </button>
-  </div>
+    <div className="p-4">
+      <h1 className="text-2xl font-bold mb-4">Find Restaurants Near You</h1>
 
-  {/* 우측 상단: 지도 */}
-  <div className="col-span-1 row-span-1">
-    {latitude && longitude && (
-      <GoogleMap
-        center={{ lat: latitude, lng: longitude }}
-        zoom={13}
-        mapContainerStyle={{ width: "100%", height: "100%" }}
-      >
-        <Circle
-          center={{ lat: latitude, lng: longitude }}
-          radius={radius}
-          options={{
-            strokeColor: "#008000",
-            strokeOpacity: 0.8,
-            strokeWeight: 2,
-            fillColor: "#008000",
-            fillOpacity: 0.2,
-          }}
-        />
-        <Marker position={{ lat: latitude, lng: longitude }} />
-        {restaurants.map((restaurant) => (
-          <Marker
-            key={restaurant.id}
-            position={{ lat: restaurant.latitude, lng: restaurant.longitude }}
+      {/* Location Search with Autocomplete */}
+      <div className="mb-4">
+        <Autocomplete onLoad={onLoad} onPlaceChanged={onPlaceChanged}>
+          <input
+            type="text"
+            placeholder="Enter a location"
+            value={searchLocation}
+            onChange={(e) => setSearchLocation(e.target.value)}
+            className="border p-2 rounded w-full"
           />
-        ))}
-      </GoogleMap>
-    )}
-  </div>
+        </Autocomplete>
+      </div>
 
-  {/* 하단: 배너 */}
-  <div className="col-span-2 bg-gray-200 flex items-center justify-center">
-    <img
-      src="/path-to-dummy-image.jpg"
-      alt="Banner"
-      className="w-full max-h-32 object-cover"
-    />
-  </div>
+      {/* Google Map */}
+      {latitude && longitude && (
+        <GoogleMap
+          center={{ lat: latitude, lng: longitude }}
+          zoom={13}
+          mapContainerStyle={{ width: "100%", height: "400px" }}
+        >
+          <Circle
+            center={{ lat: latitude, lng: longitude }}
+            radius={radius}
+            options={{
+              strokeColor: "#008000", // Circle border color
+              strokeOpacity: 0.8,
+              strokeWeight: 2,
+              fillColor: "#008000", // Circle fill color
+              fillOpacity: 0.2,
+            }}
+          />
 
-  {/* 브래킷 모달 */}
-  <BracketSelectModal
-    isOpen={confirmModalOpen}
-    onClose={() => setConfirmModalOpen(false)}
-  />
-</div>
+          {/* Marker for the center */}
+          <Marker position={{ lat: latitude, lng: longitude }} />
 
+          {/* Markers for restaurants */} 
+          {restaurants.map((restaurant) => (
+            <Marker
+              key={restaurant.id}
+              position={{ lat: restaurant.latitude, lng: restaurant.longitude }}
+            />
+          ))}
+        </GoogleMap>
+      )}
+
+      {/* Distance Slider */}
+      <Box sx={{ width: 300 }}>
+        <p>Radius (in km): {radius / 1000}</p>
+        <Slider
+          aria-label="Distance"
+          // defaultValue={3} // Default is 3 km
+          valueLabelDisplay="auto"
+          step={1}
+          marks
+          min={1} // Minimum radius is 1 km
+          max={10} // Maximum radius is 10 km
+          onChange={(e, value) => setRadius((value as number) * 1000)} // Update state
+        />
+      </Box>
+
+      {/* Buttons */}
+      <button
+        onClick={fetchRestaurants}
+        className="bg-blue-500 text-white p-2 rounded mt-2 mr-2"
+      >
+        Find Restaurants
+      </button>
+
+      {loading && <p>Loading...</p>}
+
+      <BracketSelectModal isOpen={confirmModalOpen} onClose={() => setConfirmModalOpen(false)} />
+    </div>
   );
 }
