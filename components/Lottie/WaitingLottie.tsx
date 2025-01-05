@@ -1,8 +1,22 @@
 "use client";
 
+import React, { useState, useEffect } from "react";
 import Lottie from "react-lottie-player";
 
 export default function WaitingLottie() {
+  const [dotCount, setDotCount] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setDotCount((prev) => (prev + 1) % 4);
+    }, 500);
+
+    return () => clearInterval(interval);
+  }, []);
+
+
+  const animatedDots = ["", ".", ". .", ". . ."][dotCount];
+
   return (
     <div
       style={{
@@ -33,6 +47,7 @@ export default function WaitingLottie() {
         />
       </div>
 
+
       <p
         style={{
           marginTop: 16,
@@ -46,13 +61,13 @@ export default function WaitingLottie() {
           `,
         }}
       >
-        Waiting for Result . . .
+        Waiting for Result {animatedDots}
       </p>
 
       <img
-        src="/images/localspoon_logo.png"
+        src="/images/logo.png"
         alt="Local Spoon Logo"
-        style={{ marginTop: 12, width: 100, height: "auto" }}
+        style={{ marginTop: 12, width: 200, height: "auto" }}
       />
     </div>
   );
