@@ -86,7 +86,7 @@ export default function LandingPage() {
         </div>
 
         <button
-          onClick={() => router.push("/home")} 
+          onClick={() => router.push("/Home")} 
           className="mt-6 bg-[#F99D3A] text-white px-6 py-3 rounded-lg shadow-lg hover:bg-[#ed9c46]"
         >
           Start
