@@ -23,7 +23,7 @@ export default function RootLayout({
 }) {
   const pathname = usePathname();
 
-  const hideNavFooterPaths = ["/", "/loading1", "/loading2"];
+  const hideNavFooterPaths = ["/", "/Loading1", "/Loading2"];
   const shouldHideNavFooter = hideNavFooterPaths.includes(pathname);
 
   return (
