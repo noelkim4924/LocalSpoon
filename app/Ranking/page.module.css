@@ -6,8 +6,8 @@
   background-color: #FFF3DE;
   padding: 2rem;
   min-height: 100vh;
-  width: full;
-  font-family: "Poppins",
+  width: 100%;
+  font-family: "Poppins";
 }
 
 .heading {
@@ -98,7 +98,6 @@
   font-weight: bold;
 }
 
-/* Chat Content */
 .chatContent {
   padding: 1rem;
   overflow-y: auto;
@@ -199,6 +198,31 @@
   margin: 0 10px;
 }
 
+.podium-image-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 500px; /* Fixed width to match the image */
+  height: 300px; /* Fixed height to match the image */
+  overflow: hidden; /* Ensure no overflow */
+}
+
+.fixed-image {
+  width: 500px !important;
+  height: 300px !important;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.podium-image-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 500px;
+  height: 300px;
+  overflow: hidden;
+}
+
 /* Medal */
 .medal {
   width: 2.5rem;
@@ -213,16 +237,25 @@
   word-wrap: break-word;
 }
 
-@media (max-width: 1600px) {
+@media (max-width: 768px) {
   .rank-1 {
-    top: -30%;
-    left: 20%;
-  }
-
-  .rank-2 {
-    top: 0%;
+    top: -15%; /* Adjust for smaller screens */
     left: 50%;
     transform: translateX(-50%);
   }
-}
 
+  .table th,
+  .table td {
+    font-size: 12px;
+    padding: 6px;
+  }
+
+  .podium img {
+    width: 100%;
+    height: auto;
+  }
+
+  .table-auto {
+    min-width: 300px;
+  }
+}
