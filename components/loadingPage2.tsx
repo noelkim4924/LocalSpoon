@@ -9,7 +9,7 @@ export default function LoadingPage2() {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      router.push("/ranking"); // 2초 뒤 /Ranking 페이지로 이동
+      router.push("/ranking");
     }, 2000);
 
     return () => clearTimeout(timer);

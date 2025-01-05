@@ -6,15 +6,14 @@ import StartingLottie from "@/components/Lottie/StartingLottie";
 
 export default function LoadingPage1() {
   const router = useRouter();
-  
+
   useEffect(() => {
     const timer = setTimeout(() => {
       router.push("/home");
-    }, 2000);
+    }, 2100);
 
-    return () => clearTimeout(timer); 
+    return () => clearTimeout(timer);
   }, [router]);
 
   return <StartingLottie />;
 }
-
